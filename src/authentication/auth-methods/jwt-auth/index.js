@@ -1,20 +1,21 @@
-import { useEffect, useState } from 'react';
-import {httpClient} from "../../../util/Api";
+import { useEffect, useState } from "react";
+import { httpClient } from "../../../util/Api";
+import { usuariosService } from "../../../services";
 
 export const useProvideAuth = () => {
   const [authUser, setAuthUser] = useState(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [isLoadingUser, setLoadingUser] = useState(true);
   const [isLoading, setLoading] = useState(false);
 
   const fetchStart = () => {
     setLoading(true);
-    setError('');
+    setError("");
   };
 
   const fetchSuccess = () => {
     setLoading(false);
-    setError('');
+    setError("");
   };
 
   const fetchError = (error) => {
@@ -24,33 +25,53 @@ export const useProvideAuth = () => {
 
   const userLogin = (user, callbackFun) => {
     fetchStart();
-    httpClient
-      .post('auth/login', user)
+    usuariosService
+      .login(user)
       .then(({ data }) => {
-        if (data.result) {
+        if (
+          data.statusCode === 200
+          //  && login.body.role
+        ) {
           fetchSuccess();
-          httpClient.defaults.headers.common['Authorization'] = 'Bearer ' + data.token.access_token;
-          localStorage.setItem('token', data.token.access_token);
+          // httpClient.defaults.headers.common["Authorization"] =
+          //   "Bearer " + data.access_token;
+          localStorage.setItem(
+            "token",
+            JSON.stringify({
+              ...data.body,
+              // token: data.access_token,
+              modulos: [
+                "inicio",
+                "clientes",
+                // "hosting",
+                // "pagos",
+                // "soporte",
+                // "usuarios",
+                // "proyectos",
+              ],
+            })
+          );
           getAuthUser();
           if (callbackFun) callbackFun();
         } else {
-          fetchError(data.error);
+          fetchError("No tiene permisos para acceder a esta aplicación");
         }
       })
       .catch(function (error) {
-        fetchError(error.message);
+        fetchError(error.response.data.message);
       });
   };
 
   const userSignup = (user, callbackFun) => {
     fetchStart();
     httpClient
-      .post('auth/register', user)
+      .post("auth/register", user)
       .then(({ data }) => {
         if (data.result) {
           fetchSuccess();
-          localStorage.setItem('token', data.token.access_token);
-          httpClient.defaults.headers.common['Authorization'] = 'Bearer ' + data.token.access_token;
+          localStorage.setItem("token", data.token.access_token);
+          httpClient.defaults.headers.common["Authorization"] =
+            "Bearer " + data.token.access_token;
           getAuthUser();
           if (callbackFun) callbackFun();
         } else {
@@ -84,40 +105,16 @@ export const useProvideAuth = () => {
 
   const userSignOut = (callbackFun) => {
     fetchStart();
-    httpClient
-      .post('auth/logout')
-      .then(({ data }) => {
-        if (data.result) {
-          fetchSuccess();
-          httpClient.defaults.headers.common['Authorization'] = '';
-          localStorage.removeItem('token');
-          setAuthUser(false);
-          if (callbackFun) callbackFun();
-        } else {
-          fetchError(data.error);
-        }
-      })
-      .catch(function (error) {
-        fetchError(error.message);
-      });
+    fetchSuccess();
+    localStorage.removeItem("token");
+    setAuthUser(false);
   };
 
   const getAuthUser = () => {
+    const token = localStorage.getItem("token");
     fetchStart();
-    httpClient
-      .post('auth/me')
-      .then(({ data }) => {
-        if (data.user) {
-          fetchSuccess();
-          setAuthUser(data.user);
-        } else {
-          fetchError(data.error);
-        }
-      })
-      .catch(function (error) {
-        httpClient.defaults.headers.common['Authorization'] = '';
-        fetchError(error.message);
-      });
+    fetchSuccess();
+    setAuthUser(JSON.parse(token));
   };
 
   // Subscribe to user on mount
@@ -126,24 +123,25 @@ export const useProvideAuth = () => {
   // ... latest auth object.
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      httpClient.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-    }
-
-    httpClient
-      .post('auth/me')
-      .then(({ data }) => {
-        if (data.user) {
-          setAuthUser(data.user);
-        }
-        setLoadingUser(false);
-      })
-      .catch(function () {
-        localStorage.removeItem('token');
-        httpClient.defaults.headers.common['Authorization'] = '';
-        setLoadingUser(false);
-      });
+    const token = localStorage.getItem("token");
+    // if (token) {
+    //   httpClient.defaults.headers.common["Authorization"] = "Bearer " + token;
+    // }
+    setAuthUser(JSON.parse(token));
+    setLoadingUser(false);
+    // httpClient
+    //   .post("auth/me")
+    //   .then(({ data }) => {
+    //     if (data.user) {
+    //       setAuthUser(data.user);
+    //     }
+    //     setLoadingUser(false);
+    //   })
+    //   .catch(function () {
+    //     localStorage.removeItem("token");
+    //     httpClient.defaults.headers.common["Authorization"] = "";
+    //     setLoadingUser(false);
+    //   });
   }, []);
 
   // Return the user object and auth methods

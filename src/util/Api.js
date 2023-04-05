@@ -1,8 +1,9 @@
-import axios from 'axios';
+import axios from "axios";
+import { backend } from "../constants/Backend";
 
 export const httpClient = axios.create({
-  baseURL: `http://g-axon.work/jwtauth/api/`, //YOUR_API_URL HERE
+  baseURL: backend,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
