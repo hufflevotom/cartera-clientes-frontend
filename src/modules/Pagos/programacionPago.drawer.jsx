@@ -5,7 +5,7 @@ import { SmileTwoTone } from "@ant-design/icons";
 import SectionTitleItem from "../../components/SectionTitleItem/SectionTitleItem";
 import DescriptionItem from "../../components/DescriptionItem/DescriptionItem";
 
-const InfoProgramacionPago = ({ data, show, setShow }) => {
+export const InfoProgramacionPago = ({ data, show, setShow }) => {
   return (
     <Drawer
       width={1000}
@@ -37,5 +37,3 @@ const InfoProgramacionPago = ({ data, show, setShow }) => {
     </Drawer>
   );
 };
-
-export default InfoProgramacionPago;

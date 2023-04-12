@@ -13,10 +13,9 @@ import { useDataTable } from "../../hooks/useDataTable";
 import { ProjectOutlined } from "@ant-design/icons";
 import { useState } from "react";
 
-const Tabla = () => {
+const TablaCliente = () => {
   const model = "cliente";
   const [verModalProyecto, setVerModalProyecto] = useState(false);
-
   const {
     agregar,
     loading,
@@ -121,4 +120,4 @@ const Tabla = () => {
   );
 };
 
-export default Tabla;
+export default TablaCliente;

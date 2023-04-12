@@ -11,7 +11,7 @@ import {
 } from "../../services";
 import TextArea from "antd/lib/input/TextArea";
 
-const ModalProgramacionPago = ({
+export const ModalProgramacionPago = ({
   datoSeleccionado,
   verModal,
   setVerModal,
@@ -206,5 +206,3 @@ const ModalProgramacionPago = ({
     </Modal>
   );
 };
-
-export default ModalProgramacionPago;
