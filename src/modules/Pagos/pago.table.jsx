@@ -50,7 +50,10 @@ const Pago = ({
 
   const showDeleteConfirm = (record) => {
     confirm({
-      title: "¿Esta seguro que desea eliminar " + record.nombre + "?",
+      title:
+        "¿Esta seguro que desea eliminar el pago del " +
+        moment(record.fechaPago).format("DD/MM/YYYY") +
+        "?",
       content: "",
       okText: "Eliminar",
       okType: "danger",
@@ -84,11 +87,7 @@ const Pago = ({
     const respuesta = await pagosService.delete(record.id);
     if (respuesta.data.statusCode === 200) {
       traerDatos(paginacion);
-      openNotification(
-        "Registro Eliminado",
-        record.nombre + " fue eliminado con exito",
-        ""
-      );
+      openNotification("Registro Eliminado", "Eliminado con exito", "");
       setLoading(false);
     } else {
       openNotification(
