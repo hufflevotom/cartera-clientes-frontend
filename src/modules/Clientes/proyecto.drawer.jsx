@@ -3,17 +3,8 @@ import React from "react";
 import { Drawer, Row, Col } from "antd";
 import { SmileTwoTone } from "@ant-design/icons";
 import moment from "moment";
-
-const SectionTitleItem = ({ children }) => (
-  <div style={{ fontSize: "18px", margin: "20px 0" }}>{children}</div>
-);
-
-const DescriptionItem = ({ title, content }) => (
-  <div style={{ marginBottom: "20px" }}>
-    <p style={{ fontSize: "16px", marginBottom: "5px" }}>{title}:</p>
-    {content}
-  </div>
-);
+import SectionTitleItem from "../../components/SectionTitleItem/SectionTitleItem";
+import DescriptionItem from "../../components/DescriptionItem/DescriptionItem";
 
 const InfoProyecto = ({ data, show, setShow }) => {
   return (

@@ -3,28 +3,27 @@ import React, { useState, useEffect } from "react";
 
 import { Button, Card, Divider, Modal, Table, Tooltip } from "antd";
 import {
+  CreditCardOutlined,
   DeleteOutlined,
-  EditOutlined,
   EyeOutlined,
-  ProjectOutlined,
 } from "@ant-design/icons";
 
 import { Boton } from "../../components/Boton";
 
-import { cliente } from "../../models/cliente";
-import { clientesService } from "../../services";
+import { programacionPago } from "../../models/programacionPago";
+import { programacionPagosService } from "../../services";
 import { openNotification } from "../../util/utils";
 
-import ModalCliente from "./cliente.modal";
-import InfoCliente from "./cliente.drawer";
-import Proyectos from "./proyecto.table";
+import ModalProgramacionPago from "./programacionPago.modal";
+import InfoProgramacionPago from "./programacionPago.drawer";
+import Pago from "./pago.table";
 
-const Clientes = () => {
+const ProgramacionPago = () => {
   const confirm = Modal.confirm;
   const [verDetalle, setVerDetalle] = useState(false);
   const [verModal, setVerModal] = useState(false);
-  const [verModalProyecto, setVerModalProyecto] = useState(false);
-  const [datoSeleccionado, setDatoSeleccionado] = useState(cliente);
+  const [verModalPago, setVerModalPago] = useState(false);
+  const [datoSeleccionado, setDatoSeleccionado] = useState(programacionPago);
   const [tipo, setTipo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -41,20 +40,14 @@ const Clientes = () => {
   };
 
   const agregar = () => {
-    setDatoSeleccionado({ ...cliente });
+    setDatoSeleccionado({ ...programacionPago });
     setTipo("agregar");
     setVerModal(true);
   };
 
-  const editar = (record) => {
+  const pagos = (record) => {
     setDatoSeleccionado(record);
-    setTipo("editar");
-    setVerModal(true);
-  };
-
-  const proyectos = (record) => {
-    setDatoSeleccionado(record);
-    setVerModalProyecto(true);
+    setVerModalPago(true);
   };
 
   const eliminar = (record) => {
@@ -63,7 +56,10 @@ const Clientes = () => {
 
   const showDeleteConfirm = (record) => {
     confirm({
-      title: "¿Esta seguro que desea eliminar " + record.documento + "?",
+      title:
+        "¿Esta seguro que desea eliminar la programacion de " +
+        record.proyecto.nombre +
+        "?",
       content: "",
       okText: "Eliminar",
       okType: "danger",
@@ -80,7 +76,7 @@ const Clientes = () => {
     const limit = pagination.pageSize;
     const offset =
       pagination.current * pagination.pageSize - pagination.pageSize;
-    const respuesta = await clientesService.getAll(limit, offset, "");
+    const respuesta = await programacionPagosService.getAll(limit, offset, "");
     const data = respuesta.data.body[0].map((e, i) => ({
       ...e,
       key: i,
@@ -92,12 +88,14 @@ const Clientes = () => {
 
   const eliminarData = async (record) => {
     setLoading(true);
-    const respuesta = await clientesService.delete(record.id);
+    const respuesta = await programacionPagosService.delete(record.id);
     if (respuesta.data.statusCode === 200) {
       traerDatos(paginacion);
       openNotification(
         "Registro Eliminado",
-        record.documento + " fue eliminado con exito",
+        "La programacion para el proyecto " +
+          record.proyecto.nombre +
+          " fue eliminada con exito",
         ""
       );
       setLoading(false);
@@ -112,40 +110,31 @@ const Clientes = () => {
 
   const columns = [
     {
-      title: "Documento",
-      dataIndex: "documento",
-      key: "documento",
+      title: "Día de Pago",
+      dataIndex: "diaPago",
+      key: "diaPago",
+      render: (text) => <span>{text} de cada mes</span>,
     },
     {
-      title: "Razón Social",
-      dataIndex: "razonSocial",
-      key: "razonSocial",
-    },
-    {
-      title: "Responsable",
-      dataIndex: "responsable",
-      key: "responsable",
-    },
-    {
-      title: "Teléfono",
-      dataIndex: "telefono",
-      key: "telefono",
+      title: "Proyecto",
+      dataIndex: ["proyecto", "nombre"],
+      key: "proyecto",
     },
     {
       title: "",
       key: "action",
-      width: 250,
+      width: 200,
       render: (text, record) => (
         <span>
-          <Tooltip placement="top" title="Proyectos">
+          <Tooltip placement="top" title="Pagos">
             <Button
               style={{ margin: 0, padding: 0 }}
               onClick={() => {
-                proyectos(record);
+                pagos(record);
               }}
               type="link"
               icon={
-                <ProjectOutlined style={{ fontSize: 20, color: "orange" }} />
+                <CreditCardOutlined style={{ fontSize: 20, color: "orange" }} />
               }
             />
           </Tooltip>
@@ -158,17 +147,6 @@ const Clientes = () => {
               }}
               type="link"
               icon={<EyeOutlined style={{ fontSize: 20 }} />}
-            />
-          </Tooltip>
-          <Divider type="vertical" />
-          <Tooltip placement="top" title="Editar">
-            <Button
-              style={{ margin: 0, padding: 0 }}
-              onClick={() => {
-                editar(record);
-              }}
-              type="link"
-              icon={<EditOutlined style={{ fontSize: 20, color: "green" }} />}
             />
           </Tooltip>
           <Divider type="vertical" />
@@ -198,8 +176,8 @@ const Clientes = () => {
 
   return (
     <Card
-      title="Lista de clientes"
-      extra={<Boton type="primary" onClick={agregar} name="Agregar Cliente" />}
+      title="Lista de programación de pagos"
+      extra={<Boton type="primary" onClick={agregar} name="Programar Pago" />}
     >
       <Table
         style={{ width: "100%", textAlign: "center" }}
@@ -211,7 +189,7 @@ const Clientes = () => {
         onChange={handleTableChange}
       />
       {verModal ? (
-        <ModalCliente
+        <ModalProgramacionPago
           traerDatos={traerDatos}
           verModal={verModal}
           datoSeleccionado={datoSeleccionado}
@@ -219,15 +197,15 @@ const Clientes = () => {
           tipo={tipo}
         />
       ) : null}
-      {verModalProyecto ? (
-        <Proyectos
-          verModal={verModalProyecto}
+      {verModalPago ? (
+        <Pago
+          verModal={verModalPago}
           datoSeleccionado={datoSeleccionado}
-          setVerModal={setVerModalProyecto}
+          setVerModal={setVerModalPago}
         />
       ) : null}
       {verDetalle ? (
-        <InfoCliente
+        <InfoProgramacionPago
           show={verDetalle}
           setShow={setVerDetalle}
           data={datoSeleccionado}
@@ -237,4 +215,4 @@ const Clientes = () => {
   );
 };
 
-export default Clientes;
+export default ProgramacionPago;

@@ -44,7 +44,7 @@ export const useProvideAuth = () => {
                 "inicio",
                 "clientes",
                 // "hosting",
-                // "pagos",
+                "pagos",
                 // "soporte",
                 // "usuarios",
                 // "proyectos",

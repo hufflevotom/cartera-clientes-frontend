@@ -1,30 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 
-import { Button, Card, Divider, Modal, Table, Tooltip } from "antd";
-import {
-  DeleteOutlined,
-  EditOutlined,
-  EyeOutlined,
-  ProjectOutlined,
-} from "@ant-design/icons";
+import { Button, Divider, Modal, Table, Tooltip } from "antd";
 
 import { Boton } from "../../components/Boton";
 
-import { cliente } from "../../models/cliente";
-import { clientesService } from "../../services";
+import { pago } from "../../models/pago";
+import { pagosService, programacionPagosService } from "../../services";
 import { openNotification } from "../../util/utils";
 
-import ModalCliente from "./cliente.modal";
-import InfoCliente from "./cliente.drawer";
-import Proyectos from "./proyecto.table";
+import ModalPago from "./pago.modal";
+import InfoPago from "./pago.drawer";
+import moment from "moment";
+import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 
-const Clientes = () => {
+const Pago = ({
+  datoSeleccionado: datoSeleccionadoProgramacion,
+  verModal: verModalProgramacion,
+  setVerModal: setVerModalProgramacion,
+}) => {
   const confirm = Modal.confirm;
   const [verDetalle, setVerDetalle] = useState(false);
   const [verModal, setVerModal] = useState(false);
-  const [verModalProyecto, setVerModalProyecto] = useState(false);
-  const [datoSeleccionado, setDatoSeleccionado] = useState(cliente);
+  const [datoSeleccionado, setDatoSeleccionado] = useState(pago);
   const [tipo, setTipo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -41,20 +39,9 @@ const Clientes = () => {
   };
 
   const agregar = () => {
-    setDatoSeleccionado({ ...cliente });
+    setDatoSeleccionado({ ...pago });
     setTipo("agregar");
     setVerModal(true);
-  };
-
-  const editar = (record) => {
-    setDatoSeleccionado(record);
-    setTipo("editar");
-    setVerModal(true);
-  };
-
-  const proyectos = (record) => {
-    setDatoSeleccionado(record);
-    setVerModalProyecto(true);
   };
 
   const eliminar = (record) => {
@@ -63,7 +50,7 @@ const Clientes = () => {
 
   const showDeleteConfirm = (record) => {
     confirm({
-      title: "¿Esta seguro que desea eliminar " + record.documento + "?",
+      title: "¿Esta seguro que desea eliminar " + record.nombre + "?",
       content: "",
       okText: "Eliminar",
       okType: "danger",
@@ -77,27 +64,29 @@ const Clientes = () => {
 
   const traerDatos = async (pagination) => {
     setLoading(true);
-    const limit = pagination.pageSize;
-    const offset =
-      pagination.current * pagination.pageSize - pagination.pageSize;
-    const respuesta = await clientesService.getAll(limit, offset, "");
-    const data = respuesta.data.body[0].map((e, i) => ({
+    const respuesta = await programacionPagosService.getOne(
+      datoSeleccionadoProgramacion.id
+    );
+    const data = respuesta.data.body[0].pagos.map((e, i) => ({
       ...e,
       key: i,
     }));
     setLoading(false);
     setData([...data]);
-    setPaginacion({ ...pagination, total: respuesta.data.body[1] });
+    setPaginacion({
+      ...pagination,
+      total: respuesta.data.body[0].pagos.length,
+    });
   };
 
   const eliminarData = async (record) => {
     setLoading(true);
-    const respuesta = await clientesService.delete(record.id);
+    const respuesta = await pagosService.delete(record.id);
     if (respuesta.data.statusCode === 200) {
       traerDatos(paginacion);
       openNotification(
         "Registro Eliminado",
-        record.documento + " fue eliminado con exito",
+        record.nombre + " fue eliminado con exito",
         ""
       );
       setLoading(false);
@@ -112,44 +101,27 @@ const Clientes = () => {
 
   const columns = [
     {
-      title: "Documento",
-      dataIndex: "documento",
-      key: "documento",
+      title: "Monto",
+      dataIndex: "monto",
+      key: "monto",
     },
     {
-      title: "Razón Social",
-      dataIndex: "razonSocial",
-      key: "razonSocial",
+      title: "Fecha de pago",
+      dataIndex: "fechaPago",
+      key: "fechaPago",
+      render: (text) => <span>{moment(text).format("DD/MM/YYYY")}</span>,
     },
     {
-      title: "Responsable",
-      dataIndex: "responsable",
-      key: "responsable",
-    },
-    {
-      title: "Teléfono",
-      dataIndex: "telefono",
-      key: "telefono",
+      title: "Observaciones",
+      dataIndex: "observaciones",
+      key: "observaciones",
     },
     {
       title: "",
       key: "action",
-      width: 250,
+      width: 150,
       render: (text, record) => (
         <span>
-          <Tooltip placement="top" title="Proyectos">
-            <Button
-              style={{ margin: 0, padding: 0 }}
-              onClick={() => {
-                proyectos(record);
-              }}
-              type="link"
-              icon={
-                <ProjectOutlined style={{ fontSize: 20, color: "orange" }} />
-              }
-            />
-          </Tooltip>
-          <Divider type="vertical" />
           <Tooltip placement="top" title="Detalles">
             <Button
               style={{ margin: 0, padding: 0 }}
@@ -158,17 +130,6 @@ const Clientes = () => {
               }}
               type="link"
               icon={<EyeOutlined style={{ fontSize: 20 }} />}
-            />
-          </Tooltip>
-          <Divider type="vertical" />
-          <Tooltip placement="top" title="Editar">
-            <Button
-              style={{ margin: 0, padding: 0 }}
-              onClick={() => {
-                editar(record);
-              }}
-              type="link"
-              icon={<EditOutlined style={{ fontSize: 20, color: "green" }} />}
             />
           </Tooltip>
           <Divider type="vertical" />
@@ -197,9 +158,34 @@ const Clientes = () => {
   }, []);
 
   return (
-    <Card
-      title="Lista de clientes"
-      extra={<Boton type="primary" onClick={agregar} name="Agregar Cliente" />}
+    <Modal
+      visible={verModalProgramacion}
+      onCancel={() => setVerModalProgramacion(false)}
+      title={
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <div>Lista de pagos</div>
+
+          <Boton type="primary" onClick={agregar} name="Agregar pago" />
+        </div>
+      }
+      maskClosable={false}
+      closable={false}
+      width={1000}
+      footer={
+        <Boton
+          type="primary"
+          onClick={() => setVerModalProgramacion(false)}
+          name="Cerrar"
+        />
+      }
     >
       <Table
         style={{ width: "100%", textAlign: "center" }}
@@ -211,30 +197,24 @@ const Clientes = () => {
         onChange={handleTableChange}
       />
       {verModal ? (
-        <ModalCliente
+        <ModalPago
           traerDatos={traerDatos}
           verModal={verModal}
           datoSeleccionado={datoSeleccionado}
+          datoSeleccionadoProgramacion={datoSeleccionadoProgramacion}
           setVerModal={setVerModal}
           tipo={tipo}
         />
       ) : null}
-      {verModalProyecto ? (
-        <Proyectos
-          verModal={verModalProyecto}
-          datoSeleccionado={datoSeleccionado}
-          setVerModal={setVerModalProyecto}
-        />
-      ) : null}
       {verDetalle ? (
-        <InfoCliente
+        <InfoPago
           show={verDetalle}
           setShow={setVerDetalle}
           data={datoSeleccionado}
         />
       ) : null}
-    </Card>
+    </Modal>
   );
 };
 
-export default Clientes;
+export default Pago;

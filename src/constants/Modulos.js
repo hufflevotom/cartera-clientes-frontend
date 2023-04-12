@@ -6,8 +6,8 @@
 
 import {
   CompassOutlined,
+  CreditCardOutlined,
   DashboardOutlined,
-  FileImageOutlined,
   SearchOutlined,
   UserOutlined,
 } from "@ant-design/icons";
@@ -48,7 +48,7 @@ export const Modulos = [
     modulo: "pagos",
     ruta: "Pagos",
     descripcion: "Pagos",
-    icono: <FileImageOutlined style={estilo} />,
+    icono: <CreditCardOutlined style={estilo} />,
     subMenu: false,
   },
   {

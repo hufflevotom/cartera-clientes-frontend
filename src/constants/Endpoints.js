@@ -27,3 +27,17 @@ export const Proyectos = {
   update: backend + "proyectos/proyectos/",
   delete: backend + "proyectos/proyectos/",
 };
+
+//* Módulo de ProgramacionPagos
+export const ProgramacionPagos = {
+  getAll: backend + "proyectos/pagos/programacion",
+  create: backend + "proyectos/pagos/programacion",
+  getOne: backend + "proyectos/pagos/programacion/",
+  delete: backend + "proyectos/pagos/programacion/",
+};
+
+//* Módulo de Pagos
+export const Pagos = {
+  create: backend + "proyectos/pagos/pago",
+  delete: backend + "proyectos/pagos/pago/",
+};

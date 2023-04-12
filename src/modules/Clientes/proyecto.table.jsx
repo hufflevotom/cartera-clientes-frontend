@@ -56,7 +56,7 @@ const Proyectos = ({
 
   const showDeleteConfirm = (record) => {
     confirm({
-      title: "¿Esta seguro que desea eliminar " + record.documento + "?",
+      title: "¿Esta seguro que desea eliminar " + record.nombre + "?",
       content: "",
       okText: "Eliminar",
       okType: "danger",
@@ -90,12 +90,12 @@ const Proyectos = ({
 
   const eliminarData = async (record) => {
     setLoading(true);
-    const respuesta = await proyectosService.delete(record._id);
+    const respuesta = await proyectosService.delete(record.id);
     if (respuesta.data.statusCode === 200) {
       traerDatos(paginacion);
       openNotification(
         "Registro Eliminado",
-        record.documento + " fue eliminado con exito",
+        record.nombre + " fue eliminado con exito",
         ""
       );
       setLoading(false);
