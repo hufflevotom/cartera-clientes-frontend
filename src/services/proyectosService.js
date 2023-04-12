@@ -1,7 +1,7 @@
 import { Proyectos } from "../constants/Endpoints";
 import { httpClient } from "../util/Api";
 
-const getAll = async (limit, offset, clienteId, busqueda = "") => {
+const getAll = async (limit, offset, busqueda = "", clienteId) => {
   return await httpClient.get(
     `${Proyectos.getAll}${clienteId}?limit=${limit}&offset=${offset}${
       busqueda && busqueda !== "" ? `&busqueda=${busqueda}` : ""

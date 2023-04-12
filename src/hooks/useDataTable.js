@@ -4,7 +4,13 @@ import { Button, Divider, Modal, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import { openNotification } from "../util/utils";
 
-export const useDataTable = ({ model, tabla, service }) => {
+export const useDataTable = ({
+  model,
+  tabla,
+  service,
+  getAll = null,
+  _delete = null,
+}) => {
   const confirm = Modal.confirm;
   const [verDetalle, setVerDetalle] = useState(false);
   const [verModal, setVerModal] = useState(false);
@@ -59,10 +65,12 @@ export const useDataTable = ({ model, tabla, service }) => {
     const limit = pagination.pageSize;
     const offset =
       pagination.current * pagination.pageSize - pagination.pageSize;
-    const respuesta = await service.getAll(limit, offset, "");
+    const respuesta = getAll
+      ? await getAll.func(limit, offset, "", ...getAll.params)
+      : await service.getAll(limit, offset, "");
     let data = [];
     let total = 0;
-    if (typeof respuesta.data.body[1] === "number") {
+    if (respuesta.data.body[1] && typeof respuesta.data.body[1] === "number") {
       data = respuesta.data.body[0].map((e, i) => ({
         ...e,
         key: i,
@@ -82,7 +90,9 @@ export const useDataTable = ({ model, tabla, service }) => {
 
   const eliminarData = async (record) => {
     setLoading(true);
-    const respuesta = await service.delete(record.id);
+    const respuesta = _delete
+      ? _delete.func(record.id)
+      : await service.delete(record.id);
     if (respuesta.data.statusCode === 200) {
       traerDatos(paginacion);
       openNotification("Registro Eliminado", "Eliminado con exito", "");
@@ -106,10 +116,10 @@ export const useDataTable = ({ model, tabla, service }) => {
         (tabla.info ? 50 : 0) +
         (tabla.edit ? 50 : 0) +
         (tabla.delete ? 50 : 0) +
-        tabla.aditionalActions.length * 50,
+        (tabla.aditionalActions ? tabla.aditionalActions.length * 50 : 0),
       render: (text, record) => (
         <span>
-          {tabla.aditionalActions.map((act) => (
+          {tabla.aditionalActions?.map((act) => (
             <>
               <Tooltip placement="top" title={act.title}>
                 <Button
@@ -187,9 +197,12 @@ export const useDataTable = ({ model, tabla, service }) => {
   return {
     agregar,
     loading,
+    setLoading,
     columns,
     data,
+    setData,
     paginacion,
+    setPaginacion,
     handleTableChange,
     datoSeleccionado,
     setDatoSeleccionado,

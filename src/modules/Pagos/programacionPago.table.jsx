@@ -61,7 +61,7 @@ const TablaProgramacionPago = () => {
         },
       ],
       info: true,
-      edit: true,
+      edit: false,
       delete: true,
     },
   });
