@@ -65,8 +65,14 @@ export const useDataTable = ({
     const limit = pagination.pageSize;
     const offset =
       pagination.current * pagination.pageSize - pagination.pageSize;
+    const paginate = [limit, offset, ""];
+    const params = getAll
+      ? getAll.params.paginate
+        ? [...paginate, ...getAll.params.values]
+        : getAll.params.values
+      : [];
     const respuesta = getAll
-      ? await getAll.func(limit, offset, "", ...getAll.params)
+      ? await getAll.func(...params)
       : await service.getAll(limit, offset, "");
     let data = [];
     let total = 0;

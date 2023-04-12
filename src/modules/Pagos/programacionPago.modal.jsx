@@ -158,7 +158,7 @@ export const ModalProgramacionPago = ({
 
   return (
     <Modal
-      visible={verModal}
+      open={verModal}
       footer={
         <Button onClick={agregar} type="primary" loading={loadSave}>
           {tipo === "editar" ? "Editar" : "Agregar"}

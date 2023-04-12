@@ -59,13 +59,13 @@ const Proyectos = ({
     },
     getAll: {
       func: proyectosService.getAll,
-      params: [datoSeleccionadoCliente.id],
+      params: { paginate: true, values: [datoSeleccionadoCliente.id] },
     },
   });
 
   return (
     <Modal
-      visible={verModalCliente}
+      open={verModalCliente}
       onCancel={() => setVerModalCliente(false)}
       title={
         <div

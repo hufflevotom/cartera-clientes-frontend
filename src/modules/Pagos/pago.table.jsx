@@ -1,164 +1,71 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import { Modal, Table } from "antd";
+import moment from "moment";
 
-import { Button, Divider, Modal, Table, Tooltip } from "antd";
+import { useDataTable } from "../../hooks/useDataTable";
+import { pago } from "../../models/pago";
+import { pagosService, programacionPagosService } from "../../services";
 
 import { Boton } from "../../components/Boton";
 
-import { pago } from "../../models/pago";
-import { pagosService, programacionPagosService } from "../../services";
-import { openNotification } from "../../util/utils";
-
 import ModalPago from "./pago.modal";
 import InfoPago from "./pago.drawer";
-import moment from "moment";
-import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 
-const Pago = ({
+const TablaPago = ({
   datoSeleccionado: datoSeleccionadoProgramacion,
   verModal: verModalProgramacion,
   setVerModal: setVerModalProgramacion,
 }) => {
-  const confirm = Modal.confirm;
-  const [verDetalle, setVerDetalle] = useState(false);
-  const [verModal, setVerModal] = useState(false);
-  const [datoSeleccionado, setDatoSeleccionado] = useState(pago);
-  const [tipo, setTipo] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-  const [paginacion, setPaginacion] = useState({
-    current: 1,
-    pageSize: 5,
-    showSizeChanger: true,
-    pageSizeOptions: [5, 10, 20],
+  const model = "pago";
+  const {
+    agregar,
+    loading,
+    columns,
+    data,
+    paginacion,
+    handleTableChange,
+    verModal,
+    setVerModal,
+    verDetalle,
+    setVerDetalle,
+    datoSeleccionado,
+    tipo,
+    traerDatos,
+  } = useDataTable({
+    model: pago,
+    service: pagosService,
+    tabla: {
+      columns: [
+        {
+          title: "Monto",
+          dataIndex: "monto",
+          key: "monto",
+        },
+        {
+          title: "Fecha de pago",
+          dataIndex: "fechaPago",
+          key: "fechaPago",
+          render: (text) => <span>{moment(text).format("DD/MM/YYYY")}</span>,
+        },
+        {
+          title: "Observaciones",
+          dataIndex: "observaciones",
+          key: "observaciones",
+        },
+      ],
+      info: true,
+      edit: false,
+      delete: true,
+    },
+    getAll: {
+      func: programacionPagosService.getOne,
+      params: { paginate: false, values: [datoSeleccionadoProgramacion.id] },
+    },
   });
-
-  const showInfo = (dato) => {
-    setDatoSeleccionado(dato);
-    setVerDetalle(true);
-  };
-
-  const agregar = () => {
-    setDatoSeleccionado({ ...pago });
-    setTipo("agregar");
-    setVerModal(true);
-  };
-
-  const eliminar = (record) => {
-    eliminarData(record);
-  };
-
-  const showDeleteConfirm = (record) => {
-    confirm({
-      title:
-        "¿Esta seguro que desea eliminar el pago del " +
-        moment(record.fechaPago).format("DD/MM/YYYY") +
-        "?",
-      content: "",
-      okText: "Eliminar",
-      okType: "danger",
-      cancelText: "Cancelar",
-      onOk() {
-        eliminar(record);
-      },
-      onCancel() {},
-    });
-  };
-
-  const traerDatos = async (pagination) => {
-    setLoading(true);
-    const respuesta = await programacionPagosService.getOne(
-      datoSeleccionadoProgramacion.id
-    );
-    const data = respuesta.data.body[0].pagos.map((e, i) => ({
-      ...e,
-      key: i,
-    }));
-    setLoading(false);
-    setData([...data]);
-    setPaginacion({
-      ...pagination,
-      total: respuesta.data.body[0].pagos.length,
-    });
-  };
-
-  const eliminarData = async (record) => {
-    setLoading(true);
-    const respuesta = await pagosService.delete(record.id);
-    if (respuesta.data.statusCode === 200) {
-      traerDatos(paginacion);
-      openNotification("Registro Eliminado", "Eliminado con exito", "");
-      setLoading(false);
-    } else {
-      openNotification(
-        "Error al Eliminar",
-        "Por favor vuelva a intentarlo",
-        "Alerta"
-      );
-    }
-  };
-
-  const columns = [
-    {
-      title: "Monto",
-      dataIndex: "monto",
-      key: "monto",
-    },
-    {
-      title: "Fecha de pago",
-      dataIndex: "fechaPago",
-      key: "fechaPago",
-      render: (text) => <span>{moment(text).format("DD/MM/YYYY")}</span>,
-    },
-    {
-      title: "Observaciones",
-      dataIndex: "observaciones",
-      key: "observaciones",
-    },
-    {
-      title: "",
-      key: "action",
-      width: 150,
-      render: (text, record) => (
-        <span>
-          <Tooltip placement="top" title="Detalles">
-            <Button
-              style={{ margin: 0, padding: 0 }}
-              onClick={() => {
-                showInfo(record);
-              }}
-              type="link"
-              icon={<EyeOutlined style={{ fontSize: 20 }} />}
-            />
-          </Tooltip>
-          <Divider type="vertical" />
-          <Tooltip placement="top" title="Eliminar">
-            <Button
-              style={{ margin: 0, padding: 0 }}
-              onClick={() => {
-                showDeleteConfirm(record);
-              }}
-              type="link"
-              icon={<DeleteOutlined style={{ fontSize: 20, color: "red" }} />}
-            />
-          </Tooltip>
-        </span>
-      ),
-    },
-  ];
-
-  const handleTableChange = (pagination) => {
-    setPaginacion(pagination);
-    traerDatos(pagination);
-  };
-
-  useEffect(() => {
-    traerDatos(paginacion);
-  }, []);
-
+  //TODO : controlar de donde sale la informacion de los pagos
   return (
     <Modal
-      visible={verModalProgramacion}
+      open={verModalProgramacion}
       onCancel={() => setVerModalProgramacion(false)}
       title={
         <div
@@ -170,9 +77,9 @@ const Pago = ({
             justifyContent: "space-between",
           }}
         >
-          <div>Lista de pagos</div>
+          <div>Lista de {model}s</div>
 
-          <Boton type="primary" onClick={agregar} name="Agregar pago" />
+          <Boton type="primary" onClick={agregar} name={`Agregar ${model}`} />
         </div>
       }
       maskClosable={false}
@@ -216,4 +123,4 @@ const Pago = ({
   );
 };
 
-export default Pago;
+export default TablaPago;

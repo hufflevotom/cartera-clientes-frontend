@@ -88,11 +88,6 @@ const TablaProgramacionPago = () => {
                 .split("/");
               let mes = parseInt(numeros[0], 10);
               let anio = parseInt(numeros[1], 10);
-              console.log(
-                moment(record.createdAt).isAfter(
-                  moment(`${anio}-${mes}-${record.diaPago}`)
-                )
-              );
               if (
                 moment(record.createdAt).isAfter(
                   moment(`${anio}-${mes}-${record.diaPago}`)
@@ -120,8 +115,6 @@ const TablaProgramacionPago = () => {
                 "DD/MM/YYYY"
               );
             }
-            console.log(fechaProgramada.format("DD/MM/YYYY"));
-            // console.log(fechaActual.format("DD/MM/YYYY"));
 
             if (moment().isAfter(fechaProgramada)) {
               estado = "Atrasado";
