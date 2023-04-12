@@ -38,7 +38,7 @@ export const ModalProgramacionPago = ({
 
   const traerProyectos = async (idCliente) => {
     try {
-      const respuesta = await proyectosService.getAll(10, 0, idCliente);
+      const respuesta = await proyectosService.getAll(10, 0, "", idCliente);
       const data = respuesta.data.body.map((e, i) => ({
         ...e,
         key: i,

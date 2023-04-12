@@ -13,6 +13,7 @@ import { ModalProgramacionPago as Modal } from "./programacionPago.modal";
 import { InfoProgramacionPago as Drawer } from "./programacionPago.drawer";
 import Pago from "./pago.table";
 import { useDataTable } from "../../hooks/useDataTable";
+import moment from "moment";
 
 const TablaProgramacionPago = () => {
   const model = "programación de pago";
@@ -47,6 +48,97 @@ const TablaProgramacionPago = () => {
           title: "Proyecto",
           dataIndex: ["proyecto", "nombre"],
           key: "proyecto",
+        },
+        {
+          title: "Próximo pago",
+          dataIndex: "diaPago",
+          key: "diaPago",
+          render: (txt, record) => {
+            let estado = "Pendiente";
+            let fechaProgramada = moment();
+            if (record.pagos.length > 0) {
+              const ultimoPago = record.pagos[record.pagos.length - 1];
+              const ultimaFecha = moment(ultimoPago.fechaPago).format(
+                "MM/YYYY"
+              );
+              const numeros = ultimaFecha.split("/");
+              const mes =
+                parseInt(numeros[0], 10) < 12
+                  ? parseInt(numeros[0], 10) + 1
+                  : 1;
+              const anio =
+                parseInt(numeros[0], 10) < 12
+                  ? parseInt(numeros[1], 10)
+                  : parseInt(numeros[1], 10) + 1;
+              const ultimodia = parseInt(
+                moment(`${anio}-${mes}-01`).endOf("month").format("DD"),
+                10
+              );
+              fechaProgramada = moment(
+                `${
+                  parseInt(record.diaPago, 10) > ultimodia
+                    ? ultimodia.toString().padStart(2, "0")
+                    : parseInt(record.diaPago, 10).toString().padStart(2, "0")
+                }/${mes.toString().padStart(2, "0")}/${anio}`,
+                "DD/MM/YYYY"
+              );
+            } else {
+              const numeros = moment(record.createdAt)
+                .format("MM/YYYY")
+                .split("/");
+              let mes = parseInt(numeros[0], 10);
+              let anio = parseInt(numeros[1], 10);
+              console.log(
+                moment(record.createdAt).isAfter(
+                  moment(`${anio}-${mes}-${record.diaPago}`)
+                )
+              );
+              if (
+                moment(record.createdAt).isAfter(
+                  moment(`${anio}-${mes}-${record.diaPago}`)
+                )
+              ) {
+                mes =
+                  parseInt(numeros[0], 10) < 12
+                    ? parseInt(numeros[0], 10) + 1
+                    : 1;
+                anio =
+                  parseInt(numeros[0], 10) < 12
+                    ? parseInt(numeros[1], 10)
+                    : parseInt(numeros[1], 10) + 1;
+              }
+              const ultimodia = parseInt(
+                moment(`${anio}-${mes}-01`).endOf("month").format("DD"),
+                10
+              );
+              fechaProgramada = moment(
+                `${
+                  parseInt(record.diaPago, 10) > ultimodia
+                    ? ultimodia.toString().padStart(2, "0")
+                    : parseInt(record.diaPago, 10).toString().padStart(2, "0")
+                }/${mes.toString().padStart(2, "0")}/${anio}`,
+                "DD/MM/YYYY"
+              );
+            }
+            console.log(fechaProgramada.format("DD/MM/YYYY"));
+            // console.log(fechaActual.format("DD/MM/YYYY"));
+
+            if (moment().isAfter(fechaProgramada)) {
+              estado = "Atrasado";
+            } else {
+              estado = "Pendiente";
+            }
+
+            return (
+              <span
+                style={{
+                  color: estado === "Pendiente" ? "orange" : "red",
+                }}
+              >
+                {fechaProgramada.format("DD/MM/YYYY")}
+              </span>
+            );
+          },
         },
       ],
       aditionalActions: [
