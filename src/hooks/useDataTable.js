@@ -77,16 +77,30 @@ export const useDataTable = ({
     let data = [];
     let total = 0;
     if (respuesta.data.body[1] && typeof respuesta.data.body[1] === "number") {
-      data = respuesta.data.body[0].map((e, i) => ({
-        ...e,
-        key: i,
-      }));
+      if (getAll && getAll.response) {
+        data = respuesta.data.body[0][getAll.response].map((e, i) => ({
+          ...e,
+          key: i,
+        }));
+      } else {
+        data = respuesta.data.body[0].map((e, i) => ({
+          ...e,
+          key: i,
+        }));
+      }
       total = respuesta.data.body[1];
     } else {
-      data = respuesta.data.body.map((e, i) => ({
-        ...e,
-        key: i,
-      }));
+      if (getAll && getAll.response) {
+        data = respuesta.data.body[getAll.response].map((e, i) => ({
+          ...e,
+          key: i,
+        }));
+      } else {
+        data = respuesta.data.body.map((e, i) => ({
+          ...e,
+          key: i,
+        }));
+      }
       total = respuesta.data.body.length;
     }
     setLoading(false);

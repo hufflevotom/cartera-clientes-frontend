@@ -60,9 +60,10 @@ const TablaPago = ({
     getAll: {
       func: programacionPagosService.getOne,
       params: { paginate: false, values: [datoSeleccionadoProgramacion.id] },
+      response: "pagos",
     },
   });
-  //TODO : controlar de donde sale la informacion de los pagos
+
   return (
     <Modal
       open={verModalProgramacion}
