@@ -6,7 +6,7 @@ import { Button, Modal, Form, Input } from "antd";
 import { format, openNotification } from "../../util/utils";
 import { usuariosService } from "../../services";
 
-const ModalUsuario = ({
+export const ModalUsuario = ({
   datoSeleccionado,
   verModal,
   setVerModal,
@@ -194,5 +194,3 @@ const ModalUsuario = ({
     </Modal>
   );
 };
-
-export default ModalUsuario;
