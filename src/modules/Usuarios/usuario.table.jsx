@@ -31,16 +31,11 @@ const Usuarios = () => {
     tabla: {
       columns: [
         {
-          title: "Documento de Identidad",
-          dataIndex: "documento",
-          key: "documento",
-        },
-        {
           title: "Nombre",
           dataIndex: "nombre",
           key: "nombre",
           render: (text, record) => {
-            return <span>{`${record.nombre} ${record.apellidos}`}</span>;
+            return <span>{`${record.nombre} ${record.apellido}`}</span>;
           },
         },
         {
@@ -49,9 +44,9 @@ const Usuarios = () => {
           key: "celular",
         },
         {
-          title: "Rol",
-          dataIndex: ["idTipoRol", "descripcion"],
-          key: "rol",
+          title: "e-mail",
+          dataIndex: "email",
+          key: "email",
         },
       ],
       info: true,

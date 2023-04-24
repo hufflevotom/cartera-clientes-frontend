@@ -16,47 +16,15 @@ export const ModalUsuario = ({
   const [form] = Form.useForm();
   const [loadSave, setLoadSave] = useState(false);
 
-  const onSearchRoles = async (value) => {
-    try {
-      // const arr = [];
-      //   const respuesta = await otrosService.getAll(
-      //     Otros.Roles.getAll,
-      //     10,
-      //     0,
-      //     value
-      //   );
-      //   respuesta.data.body.forEach((item) => {
-      //     arr.push({
-      //       ...item,
-      //       key: item._id,
-      //       value: item._id,
-      //       label: item.descripcion,
-      //     });
-      //   });
-      // setRoles(arr);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const agregar = async () => {
     setLoadSave(true);
-    const documento = form.getFieldValue("documento");
-    const contrasena = form.getFieldValue("contrasena");
+    const password = form.getFieldValue("password");
     const nombre = form.getFieldValue("nombre");
-    const apellidos = form.getFieldValue("apellidos");
+    const apellido = form.getFieldValue("apellido");
+    const email = form.getFieldValue("email");
     const celular = form.getFieldValue("celular");
-    const idTipoRol = form.getFieldValue("idTipoRol");
-    const brevete = form.getFieldValue("brevete");
 
-    if (
-      !documento ||
-      !contrasena ||
-      !nombre ||
-      !apellidos ||
-      !celular ||
-      !idTipoRol
-    ) {
+    if (!nombre || !apellido || !email || !password || !celular) {
       openNotification(
         "Datos Incompletos",
         "Complete todos los campos para guardar",
@@ -67,19 +35,17 @@ export const ModalUsuario = ({
     }
 
     const data = {
-      documento,
-      contrasena,
       nombre,
-      apellidos,
+      apellido,
+      email,
+      password,
       celular,
-      idTipoRol: typeof idTipoRol === "string" ? idTipoRol : idTipoRol._id,
-      brevete,
     };
 
     try {
       if (tipo === "editar") {
         const respuesta = await usuariosService.update(
-          datoSeleccionado._id,
+          datoSeleccionado.id,
           data
         );
         if (respuesta.data.statusCode === 200) {
@@ -139,16 +105,9 @@ export const ModalUsuario = ({
   };
 
   useEffect(() => {
-    onSearchRoles("");
     if (tipo === "editar") {
       form.setFieldsValue({
-        // idTipoRol: {
-        //   ...datoSeleccionado.idTipoRol,
-        //   key: datoSeleccionado.idTipoRol._id,
-        //   value: datoSeleccionado.idTipoRol._id,
-        //   label: datoSeleccionado.idTipoRol.descripcion,
-        // },
-        contrasena: "",
+        password: "",
       });
     }
   }, []);
@@ -171,19 +130,19 @@ export const ModalUsuario = ({
         initialValues={{ ...datoSeleccionado }}
         {...format}
       >
-        <Form.Item label="Documento" name="documento" required>
-          <Input type="text" placeholder="Ingrese el documento de identidad" />
-        </Form.Item>
         <Form.Item label="Nombres" name="nombre" required>
           <Input type="text" placeholder="Ingrese el nombre" />
         </Form.Item>
-        <Form.Item label="Apellidos" name="apellidos" required>
-          <Input type="text" placeholder="Ingrese los apellidos" />
+        <Form.Item label="Apellidos" name="apellido" required>
+          <Input type="text" placeholder="Ingrese los apellido" />
+        </Form.Item>
+        <Form.Item label="e-mail" name="email" required>
+          <Input type="email" placeholder="Ingrese el email" />
         </Form.Item>
         <Form.Item label="Celular" name="celular" required>
-          <Input type="text" placeholder="Ingrese los celular" />
+          <Input type="number" placeholder="Ingrese los celular" />
         </Form.Item>
-        <Form.Item label="Contraseña" name="contrasena" required>
+        <Form.Item label="Contraseña" name="password" required>
           <Input
             type="password"
             placeholder="Ingrese la contraseña"

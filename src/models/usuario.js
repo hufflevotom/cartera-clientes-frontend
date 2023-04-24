@@ -1,10 +1,9 @@
 export const usuario = {
   id: 0,
-  apellido: "",
-  avatar: null,
-  celular: 0,
-  email: "",
   nombre: "",
+  apellido: "",
+  email: "",
+  celular: 0,
 };
 
 export const usuarios = [];

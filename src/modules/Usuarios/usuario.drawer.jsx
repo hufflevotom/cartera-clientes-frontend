@@ -20,7 +20,7 @@ export const InfoUsuario = ({ data, show, setShow }) => {
           fontSize: "24px",
         }}
       >
-        <SmileTwoTone /> {data.documento}
+        <SmileTwoTone /> Usuario
       </p>
       <SectionTitleItem>Detalles</SectionTitleItem>
       <Row style={{ width: "100%" }}>
@@ -28,19 +28,14 @@ export const InfoUsuario = ({ data, show, setShow }) => {
           <DescriptionItem title="Nombre(s)" content={data.nombre} />
         </Col>
         <Col span={24}>
-          <DescriptionItem title="Apellidos" content={data.apellidos} />
+          <DescriptionItem title="Apellidos" content={data.apellido} />
         </Col>
         <Col span={24}>
           <DescriptionItem title="Celular" content={data.celular} />
         </Col>
         <Col span={24}>
-          <DescriptionItem title="Rol" content={data.idTipoRol.descripcion} />
+          <DescriptionItem title="e-mail" content={data.email} />
         </Col>
-        {data.brevete && (
-          <Col span={24}>
-            <DescriptionItem title="Brevete" content={data.brevete} />
-          </Col>
-        )}
       </Row>
     </Drawer>
   );
