@@ -46,7 +46,7 @@ export const useProvideAuth = () => {
                 // "hosting",
                 "pagos",
                 // "soporte",
-                // "usuarios",
+                "usuarios",
                 // "proyectos",
               ],
             })
@@ -58,7 +58,7 @@ export const useProvideAuth = () => {
         }
       })
       .catch(function (error) {
-        fetchError(error.response.data.message);
+        fetchError(error.response?.data?.message || error.message);
       });
   };
 
