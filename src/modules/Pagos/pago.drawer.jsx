@@ -1,8 +1,7 @@
-import React from "react";
-
-import { Drawer, Row, Col } from "antd";
-import { SmileTwoTone } from "@ant-design/icons";
 import moment from "moment";
+import { Drawer, Row, Col } from "antd";
+import { CreditCardTwoTone } from "@ant-design/icons";
+
 import SectionTitleItem from "../../components/SectionTitleItem/SectionTitleItem";
 import DescriptionItem from "../../components/DescriptionItem/DescriptionItem";
 
@@ -21,18 +20,21 @@ const InfoPago = ({ data, show, setShow }) => {
           fontSize: "24px",
         }}
       >
-        <SmileTwoTone /> {data.nombre}
+        <CreditCardTwoTone /> Pago
       </p>
       <SectionTitleItem>Detalles</SectionTitleItem>
       <Row style={{ width: "100%" }}>
         <Col span={24}>
-          <DescriptionItem title="Descripcion" content={data.descripcion} />
+          <DescriptionItem title="Monto" content={data.monto} />
         </Col>
         <Col span={24}>
           <DescriptionItem
-            title="Fecha de Inicio"
-            content={moment(data.fechaInicio).format("DD/MM/YYYY")}
+            title="Fecha de pago"
+            content={moment(data.fechaPago).format("DD/MM/YYYY")}
           />
+        </Col>
+        <Col span={24}>
+          <DescriptionItem title="Observaciones" content={data.observaciones} />
         </Col>
       </Row>
     </Drawer>

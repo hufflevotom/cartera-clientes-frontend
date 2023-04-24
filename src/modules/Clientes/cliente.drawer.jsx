@@ -20,10 +20,13 @@ export const InfoCliente = ({ data, show, setShow }) => {
           fontSize: "24px",
         }}
       >
-        <SmileTwoTone /> {data.documento}
+        <SmileTwoTone /> Cliente
       </p>
       <SectionTitleItem>Detalles</SectionTitleItem>
       <Row style={{ width: "100%" }}>
+        <Col span={24}>
+          <DescriptionItem title="Documento" content={data.documento} />
+        </Col>
         <Col span={24}>
           <DescriptionItem title="Razón Social" content={data.razonSocial} />
         </Col>

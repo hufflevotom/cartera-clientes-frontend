@@ -91,11 +91,12 @@ export const useDataTable = ({
       total = respuesta.data.body[1];
     } else {
       data =
-        getAll.response(respuesta.data.body) ||
-        respuesta.data.body.map((e, i) => ({
-          ...e,
-          key: i,
-        }));
+        typeof getAll.response === "function"
+          ? getAll.response(respuesta.data.body)
+          : respuesta.data.body.map((e, i) => ({
+              ...e,
+              key: i,
+            }));
 
       total = respuesta.data.body.length;
     }

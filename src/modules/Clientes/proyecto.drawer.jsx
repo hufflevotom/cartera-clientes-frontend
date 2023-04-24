@@ -1,8 +1,7 @@
-import React from "react";
-
-import { Drawer, Row, Col } from "antd";
-import { SmileTwoTone } from "@ant-design/icons";
 import moment from "moment";
+import { Drawer, Row, Col } from "antd";
+import { ProjectTwoTone } from "@ant-design/icons";
+
 import SectionTitleItem from "../../components/SectionTitleItem/SectionTitleItem";
 import DescriptionItem from "../../components/DescriptionItem/DescriptionItem";
 
@@ -21,10 +20,13 @@ const InfoProyecto = ({ data, show, setShow }) => {
           fontSize: "24px",
         }}
       >
-        <SmileTwoTone /> {data.nombre}
+        <ProjectTwoTone /> Proyecto
       </p>
       <SectionTitleItem>Detalles</SectionTitleItem>
       <Row style={{ width: "100%" }}>
+        <Col span={24}>
+          <DescriptionItem title="Nombre" content={data.nombre} />
+        </Col>
         <Col span={24}>
           <DescriptionItem title="Descripcion" content={data.descripcion} />
         </Col>
