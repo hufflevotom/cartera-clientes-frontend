@@ -90,17 +90,13 @@ export const useDataTable = ({
       }
       total = respuesta.data.body[1];
     } else {
-      if (getAll && getAll.response) {
-        data = respuesta.data.body[getAll.response].map((e, i) => ({
+      data =
+        getAll.response(respuesta.data.body) ||
+        respuesta.data.body.map((e, i) => ({
           ...e,
           key: i,
         }));
-      } else {
-        data = respuesta.data.body.map((e, i) => ({
-          ...e,
-          key: i,
-        }));
-      }
+
       total = respuesta.data.body.length;
     }
     setLoading(false);

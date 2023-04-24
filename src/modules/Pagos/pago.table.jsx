@@ -60,7 +60,15 @@ const TablaPago = ({
     getAll: {
       func: programacionPagosService.getOne,
       params: { paginate: false, values: [datoSeleccionadoProgramacion.id] },
-      response: "pagos",
+      response: (res) => {
+        const arr = [];
+        res.forEach((element, j) => {
+          element.pagos.forEach((pago, i) => {
+            arr.push({ ...pago, key: `${i}${j}` });
+          });
+        });
+        return arr;
+      },
     },
   });
 
