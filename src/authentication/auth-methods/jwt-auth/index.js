@@ -42,6 +42,7 @@ export const useProvideAuth = () => {
               // token: data.access_token,
               modulos: [
                 "inicio",
+                "motoTaxis",
                 "clientes",
                 // "hosting",
                 "pagos",

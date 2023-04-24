@@ -10,6 +10,26 @@ export const Usuarios = {
   delete: backend + "auth/usuarios/",
 };
 
+//* Módulo de MotoTaxis
+export const MotoTaxis = {
+  getAll: backend + "movilidades/moto-persona",
+  create: backend + "movilidades/moto-persona",
+  getOne: backend + "movilidades/moto-persona/",
+  update: backend + "movilidades/moto-persona/",
+  uploadImage: backend + "movilidades/moto-persona/imagen/",
+  delete: backend + "movilidades/moto-persona/",
+};
+
+//* Módulo de MotoTaxis
+export const Registros = {
+  getAll: backend + "movilidades/registros-moto/byMotoPersona/",
+  create: backend + "movilidades/registros-moto",
+  getOne: backend + "movilidades/registros-moto/",
+  update: backend + "movilidades/registros-moto/",
+  uploadImage: backend + "movilidades/registros-moto/imagen/",
+  delete: backend + "movilidades/registros-moto/",
+};
+
 //* Módulo de Clientes
 export const Clientes = {
   getAll: backend + "proyectos/clientes",

@@ -7,3 +7,10 @@ export const httpClient = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+export const httpClientForm = axios.create({
+	baseURL: backend,
+	headers: {
+		"Content-Type": "multipart/form-data",
+	},
+});

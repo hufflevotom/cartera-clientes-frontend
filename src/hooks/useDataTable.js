@@ -77,21 +77,17 @@ export const useDataTable = ({
     let data = [];
     let total = 0;
     if (respuesta.data.body[1] && typeof respuesta.data.body[1] === "number") {
-      if (getAll && getAll.response) {
-        data = respuesta.data.body[0][getAll.response].map((e, i) => ({
-          ...e,
-          key: i,
-        }));
-      } else {
-        data = respuesta.data.body[0].map((e, i) => ({
-          ...e,
-          key: i,
-        }));
-      }
+      data =
+        getAll && getAll.response && typeof getAll.response === "function"
+          ? getAll.response(respuesta.data.body[0])
+          : respuesta.data.body[0].map((e, i) => ({
+              ...e,
+              key: i,
+            }));
       total = respuesta.data.body[1];
     } else {
       data =
-        typeof getAll.response === "function"
+        getAll && getAll.response && typeof getAll.response === "function"
           ? getAll.response(respuesta.data.body)
           : respuesta.data.body.map((e, i) => ({
               ...e,

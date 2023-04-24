@@ -5,6 +5,7 @@
 */
 
 import {
+  CarOutlined,
   CompassOutlined,
   CreditCardOutlined,
   DashboardOutlined,
@@ -26,6 +27,15 @@ export const Modulos = [
   },
   {
     orden: 1,
+    key: "MotoTaxis",
+    modulo: "motoTaxis",
+    ruta: "MotoTaxis",
+    descripcion: "MotoTaxis",
+    icono: <CarOutlined style={estilo} />,
+    subMenu: false,
+  },
+  {
+    orden: 2,
     key: "Clientes",
     modulo: "clientes",
     ruta: "Clientes",
@@ -34,7 +44,7 @@ export const Modulos = [
     subMenu: false,
   },
   {
-    orden: 2,
+    orden: 3,
     key: "Hosting",
     modulo: "hosting",
     ruta: "Hosting",
@@ -43,7 +53,7 @@ export const Modulos = [
     subMenu: false,
   },
   {
-    orden: 3,
+    orden: 4,
     key: "Pagos",
     modulo: "pagos",
     ruta: "Pagos",
@@ -52,7 +62,7 @@ export const Modulos = [
     subMenu: false,
   },
   {
-    orden: 4,
+    orden: 5,
     key: "Soporte",
     modulo: "soporte",
     ruta: "Soporte",
@@ -61,7 +71,7 @@ export const Modulos = [
     subMenu: false,
   },
   {
-    orden: 5,
+    orden: 6,
     key: "Usuarios",
     modulo: "usuarios",
     ruta: "Usuarios",
@@ -70,7 +80,7 @@ export const Modulos = [
     subMenu: false,
   },
   {
-    orden: 6,
+    orden: 7,
     key: "Proyectos",
     modulo: "proyectos",
     ruta: "Proyectos",
