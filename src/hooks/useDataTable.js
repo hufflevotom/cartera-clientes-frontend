@@ -61,22 +61,35 @@ export const useDataTable = ({
   };
 
   const traerDatos = async (pagination) => {
+    //* Iniciar loading
     setLoading(true);
+
+    //* Obtener parametros de paginacion
     const limit = pagination.pageSize;
     const offset =
       pagination.current * pagination.pageSize - pagination.pageSize;
-    const paginate = [limit, offset, ""];
+    const paginate = [limit, offset, getAll?.params?.search || ""];
+
+    //* Obtener parametros adicionales
     const params = getAll
       ? getAll.params.paginate
         ? [...paginate, ...getAll.params.values]
         : getAll.params.values
       : [];
+    console.log(params);
+    //* Invocar servicio
     const respuesta = getAll
       ? await getAll.func(...params)
-      : await service.getAll(limit, offset, "");
+      : await service.getAll(limit, offset, getAll?.params?.search || "");
+
+    //* Obtener data y total de registros
     let data = [];
     let total = 0;
-    if (respuesta.data.body[1] && typeof respuesta.data.body[1] === "number") {
+    if (
+      respuesta.data.body.length === 2 &&
+      typeof respuesta.data.body[1] === "number" &&
+      Array.isArray(respuesta.data.body[0])
+    ) {
       data =
         getAll && getAll.response && typeof getAll.response === "function"
           ? getAll.response(respuesta.data.body[0])
@@ -96,7 +109,11 @@ export const useDataTable = ({
 
       total = respuesta.data.body.length;
     }
+
+    //* Detener loading
     setLoading(false);
+
+    //* Actualizar data y total de registros
     setData([...data]);
     setPaginacion({ ...pagination, total });
   };

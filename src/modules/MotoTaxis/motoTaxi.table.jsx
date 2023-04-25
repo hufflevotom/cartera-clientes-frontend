@@ -14,9 +14,19 @@ import { ModalMotoTaxi as Modal } from "./motoTaxi.modal";
 import { InfoMotoTaxi as Drawer } from "./motoTaxi.drawer";
 
 import Registros from "./registros.table";
+import { Buscador } from "../../components/Buscador";
+
+const opcionesInicial = {
+  buscar: "",
+  avanzado: false,
+  filtros: true,
+  limpiar: true,
+  opciones: [],
+};
 
 const TablaMotoTaxi = () => {
   const model = "Moto Taxi";
+  const [opciones, setOpciones] = useState(opcionesInicial);
   const [verModalRegistros, setVerModalRegistros] = useState(false);
   const {
     agregar,
@@ -114,6 +124,14 @@ const TablaMotoTaxi = () => {
       edit: true,
       delete: true,
     },
+    getAll: {
+      func: motoTaxisService.getAll,
+      params: {
+        search: opciones.buscar,
+        paginate: true,
+        values: [],
+      },
+    },
   });
 
   const registros = (record) => {
@@ -128,6 +146,13 @@ const TablaMotoTaxi = () => {
         <Boton type="primary" onClick={agregar} name={`Agregar ${model}`} />
       }
     >
+      <Buscador
+        opciones={opciones}
+        setOpciones={setOpciones}
+        buscar={traerDatos}
+        paginacion={paginacion}
+        reset={opcionesInicial}
+      />
       <Table
         style={{ width: "100%", textAlign: "center" }}
         className="gx-table-responsive"

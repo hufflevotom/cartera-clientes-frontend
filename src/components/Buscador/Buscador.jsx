@@ -161,19 +161,21 @@ function Buscador({
             {opciones.avanzado ? "Ocultar" : "Mostrar"} opciones
           </Button>
         )}
-        <Button
-          type="text"
-          onClick={() => {
-            setOpciones({
-              ...reset,
-              opciones: reset.opciones.map((i) => ({ ...i, value: null })),
-            });
-            buscar(paginacion);
-          }}
-          style={{ margin: 0 }}
-        >
-          Limpiar
-        </Button>
+        {opciones.limpiar !== true && (
+          <Button
+            type="text"
+            onClick={() => {
+              setOpciones({
+                ...reset,
+                opciones: reset.opciones.map((i) => ({ ...i, value: null })),
+              });
+              buscar(paginacion);
+            }}
+            style={{ margin: 0 }}
+          >
+            Limpiar
+          </Button>
+        )}
         {aditionalOption && aditionalOption}
       </div>
     </div>

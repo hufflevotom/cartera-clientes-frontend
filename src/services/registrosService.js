@@ -24,6 +24,29 @@ const getAll = async (
 
   return await httpClient.get(url);
 };
+const getLeyend = async (
+  limit,
+  offset,
+  busqueda = "",
+  fechaInicio,
+  fechaFin,
+  idMotoPersona
+) => {
+  let url = `${
+    Registros.getLeyend
+  }${idMotoPersona}?limit=${limit}&offset=${offset}${
+    busqueda && busqueda !== "" ? `&busqueda=${busqueda}` : ""
+  }`;
+
+  if (fechaInicio && fechaInicio !== "") {
+    url += `&fechaInicio=${fechaInicio}`;
+  }
+  if (fechaFin && fechaFin !== "") {
+    url += `&fechaFin=${fechaFin}`;
+  }
+
+  return await httpClient.get(url);
+};
 
 const create = async (body) => {
   return await httpClient.post(Registros.create, body);
@@ -33,11 +56,11 @@ const getOne = async (id) => {
   return await httpClient.get(Registros.getOne + id);
 };
 
-const uploadImage = async ({ imagen, motoPersonaId, tipo }) => {
+const uploadImage = async ({ imagen, registroMotoId }) => {
   const body = new FormData();
   body.append("imagen", imagen);
   return await httpClientForm.put(
-    `${Registros.uploadImage}${motoPersonaId}/${tipo === "entrega" ? 1 : 2}`,
+    `${Registros.uploadImage}${registroMotoId}`,
     body
   );
 };
@@ -52,6 +75,7 @@ const _delete = async (id) => {
 
 export const registrosService = {
   getAll,
+  getLeyend,
   create,
   getOne,
   update,

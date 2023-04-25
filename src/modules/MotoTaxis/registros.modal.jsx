@@ -14,12 +14,12 @@ import {
 import locale from "antd/es/locale/es_ES";
 
 import { format, openNotification } from "../../util/utils";
-import { proyectosService } from "../../services";
+import { registrosService } from "../../services";
 import moment from "moment";
 
 const ModalRegitro = ({
   datoSeleccionado,
-  datoSeleccionadoRegistro,
+  datoSeleccionadoMotoTaxi,
   verModal,
   setVerModal,
   tipo,
@@ -27,6 +27,7 @@ const ModalRegitro = ({
 }) => {
   const [form] = Form.useForm();
   const [loadSave, setLoadSave] = useState(false);
+  const [imagenDocumento, setImagenDocumento] = useState(null);
   const [fecha, setFecha] = useState(
     tipo === "editar" && moment(datoSeleccionado.fechaInicio)
   );
@@ -34,12 +35,31 @@ const ModalRegitro = ({
     tipo === "editar" ? datoSeleccionado.valor_gasto > 0 : false
   );
 
+  const guardarImgDocumento = async (id) => {
+    try {
+      const respuesta = await registrosService.uploadImage({
+        imagen: imagenDocumento,
+        registroMotoId: id,
+      });
+      if (respuesta.data.statusCode !== 200)
+        openNotification("Error", "No se pudo guardar la imagen", "Alerta");
+      return respuesta;
+    } catch (error) {
+      openNotification(
+        "Error",
+        "Ocurrió un error al guardar: " + error.response.data.message,
+        "Alerta"
+      );
+    }
+  };
+
   const agregar = async () => {
     setLoadSave(true);
-    const nombre = form.getFieldValue("nombre");
+    const valor = form.getFieldValue("valor");
+    const valor_gasto = form.getFieldValue("valor_gasto");
     const descripcion = form.getFieldValue("descripcion");
 
-    if (!nombre || !descripcion || !fecha) {
+    if (!valor || !fecha) {
       openNotification(
         "Datos Incompletos",
         "Complete todos los campos para guardar",
@@ -50,61 +70,36 @@ const ModalRegitro = ({
     }
 
     const data = {
-      nombre,
+      valor,
+      fecha: fecha.toISOString(),
+      valor_gasto,
       descripcion,
-      fechaInicio: fecha.toISOString(),
-      clienteId: datoSeleccionadoRegistro.id,
+      motoPersonaId: datoSeleccionadoMotoTaxi.id,
     };
 
+    let respuesta;
     try {
       if (tipo === "editar") {
-        const respuesta = await proyectosService.update(
-          datoSeleccionado.id,
-          data
-        );
+        respuesta = await registrosService.update(datoSeleccionado.id, data);
         if (respuesta.data.statusCode === 200) {
-          traerDatos({
-            current: 1,
-            pageSize: 5,
-            showSizeChanger: true,
-            pageSizeOptions: [5, 10, 20],
-          });
           openNotification(
             "Editado Correctamente",
-            "El Proyecto se editó correctamente",
+            "El Registro se editó correctamente",
             ""
           );
-          setVerModal(false);
-          setLoadSave(false);
         } else {
-          openNotification(
-            "Datos Incompletos",
-            "Complete todos los campos para guardar",
-            "Alerta"
-          );
+          openNotification("Error", "No se pudo registrar", "Alerta");
         }
       } else {
-        const respuesta = await proyectosService.create(data);
+        respuesta = await registrosService.create(data);
         if (respuesta.data.statusCode === 200) {
-          traerDatos({
-            current: 1,
-            pageSize: 5,
-            showSizeChanger: true,
-            pageSizeOptions: [5, 10, 20],
-          });
           openNotification(
             "Guardado Correctamente",
-            "El Proyecto se registró correctamente",
+            "El Registro se registró correctamente",
             ""
           );
-          setVerModal(false);
-          setLoadSave(false);
         } else {
-          openNotification(
-            "Datos Incompletos",
-            "Complete todos los campos para guardar",
-            "Alerta"
-          );
+          openNotification("Error", "No se pudo registrar", "Alerta");
         }
       }
     } catch (e) {
@@ -116,6 +111,17 @@ const ModalRegitro = ({
       setLoadSave(false);
       return;
     }
+
+    if (imagenDocumento) await guardarImgDocumento(respuesta.data.body.id);
+
+    traerDatos({
+      current: 1,
+      pageSize: 5,
+      showSizeChanger: true,
+      pageSizeOptions: [5, 10, 20],
+    });
+    setVerModal(false);
+    setLoadSave(false);
   };
 
   return (
@@ -127,7 +133,7 @@ const ModalRegitro = ({
         </Button>
       }
       onCancel={() => setVerModal(false)}
-      title={tipo === "editar" ? "Editar Proyecto" : "Agregar Proyecto"}
+      title={tipo === "editar" ? "Editar Registro" : "Agregar Registro"}
       maskClosable={false}
     >
       <Form
@@ -149,16 +155,25 @@ const ModalRegitro = ({
             />
           </ConfigProvider>
         </Form.Item>
-        <Form.Item label="Gasto" name="gasto" required>
+        <Form.Item label="Gasto" name="gasto">
           <Switch checked={gasto} onChange={setGasto} />
         </Form.Item>
         {gasto && (
           <>
-            <Form.Item label="Valor de gasto" name="valor_gasto" required>
+            <Form.Item label="Valor de gasto" name="valor_gasto">
               <Input type="text" placeholder="Ingrese el valor de gasto" />
             </Form.Item>
-            <Form.Item label="Descripción" name="descripcion" required>
+            <Form.Item label="Descripción" name="descripcion">
               <Input type="text" placeholder="Ingrese la descripcion" />
+            </Form.Item>
+            <Form.Item name="imagen" label="Documento">
+              <Input
+                type="file"
+                onChange={(event) => {
+                  setImagenDocumento(event.target.files[0]);
+                }}
+                accept="image/jpeg, image/png"
+              />
             </Form.Item>
           </>
         )}

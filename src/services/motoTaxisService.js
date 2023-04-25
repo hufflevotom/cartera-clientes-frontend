@@ -2,6 +2,7 @@ import { MotoTaxis } from "../constants/Endpoints";
 import { httpClient, httpClientForm } from "../util/Api";
 
 const getAll = async (limit, offset, busqueda = "") => {
+  console.log(busqueda);
   return await httpClient.get(
     `${MotoTaxis.getAll}?limit=${limit}&offset=${offset}${
       busqueda && busqueda !== "" ? `&busqueda=${busqueda}` : ""
