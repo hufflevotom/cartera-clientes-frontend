@@ -1,4 +1,5 @@
 import { Button, DatePicker, Input, Select } from "antd";
+import { Boton } from "../Boton";
 
 /* (HuffleVotom)
  *   Opciones es un objeto que contiene la siguiente estructura:
@@ -143,13 +144,12 @@ function Buscador({
           justifyContent: "center",
         }}
       >
-        <Button
+        <Boton
           type="primary"
           onClick={() => buscar(paginacion, opciones.avanzado)}
           style={{ margin: 0 }}
-        >
-          Buscar
-        </Button>
+          name="Buscar"
+        />
         {opciones.filtros !== true && (
           <Button
             type="text"

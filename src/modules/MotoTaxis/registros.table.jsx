@@ -44,7 +44,6 @@ const Registros = ({
   verModal: verModalMotoTaxi,
   setVerModal: setVerModalMotoTaxi,
 }) => {
-  const [loadingLeyenda, setLoadingLeyenda] = useState(false);
   const [dataLeyenda, setDataLeyenda] = useState(null);
   const [opciones, setOpciones] = useState(opcionesInicial);
   const {
@@ -118,9 +117,6 @@ const Registros = ({
   });
 
   const traerLeyenda = async () => {
-    //* Iniciar loading de Leyenda
-    setLoadingLeyenda(true);
-
     //* Obtener parametros de paginacion
     const limit = paginacion.pageSize;
     const offset =
@@ -139,9 +135,6 @@ const Registros = ({
 
     //* Obtener data y total de registros
     const data = respuesta.data.body;
-
-    //* Detener loading
-    setLoadingLeyenda(false);
 
     //* Actualizar data y total de registros
     setDataLeyenda(data);
