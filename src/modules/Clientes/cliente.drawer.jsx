@@ -1,9 +1,9 @@
-import React from "react";
-
 import { Drawer, Row, Col } from "antd";
 import { SmileTwoTone } from "@ant-design/icons";
+
 import SectionTitleItem from "../../components/SectionTitleItem/SectionTitleItem";
 import DescriptionItem from "../../components/DescriptionItem/DescriptionItem";
+import DrawerTitle from "../../components/DrawerTitle/DrawerTitle";
 
 export const InfoCliente = ({ data, show, setShow }) => {
   return (
@@ -14,14 +14,7 @@ export const InfoCliente = ({ data, show, setShow }) => {
       onClose={() => setShow(false)}
       open={show}
     >
-      <p
-        style={{
-          marginBottom: 24,
-          fontSize: "24px",
-        }}
-      >
-        <SmileTwoTone /> Cliente
-      </p>
+      <DrawerTitle title="Cliente" icon={<SmileTwoTone />} />
       <SectionTitleItem>Detalles</SectionTitleItem>
       <Row style={{ width: "100%" }}>
         <Col span={24}>

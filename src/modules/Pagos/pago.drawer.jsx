@@ -4,6 +4,7 @@ import { CreditCardTwoTone } from "@ant-design/icons";
 
 import SectionTitleItem from "../../components/SectionTitleItem/SectionTitleItem";
 import DescriptionItem from "../../components/DescriptionItem/DescriptionItem";
+import DrawerTitle from "../../components/DrawerTitle/DrawerTitle";
 
 const InfoPago = ({ data, show, setShow }) => {
   return (
@@ -14,14 +15,7 @@ const InfoPago = ({ data, show, setShow }) => {
       onClose={() => setShow(false)}
       open={show}
     >
-      <p
-        style={{
-          marginBottom: 24,
-          fontSize: "24px",
-        }}
-      >
-        <CreditCardTwoTone /> Pago
-      </p>
+      <DrawerTitle title="Pago" icon={<CreditCardTwoTone />} />
       <SectionTitleItem>Detalles</SectionTitleItem>
       <Row style={{ width: "100%" }}>
         <Col span={24}>

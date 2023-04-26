@@ -4,6 +4,7 @@ import { ProjectTwoTone } from "@ant-design/icons";
 
 import SectionTitleItem from "../../components/SectionTitleItem/SectionTitleItem";
 import DescriptionItem from "../../components/DescriptionItem/DescriptionItem";
+import DrawerTitle from "../../components/DrawerTitle/DrawerTitle";
 
 const InfoProyecto = ({ data, show, setShow }) => {
   return (
@@ -14,14 +15,7 @@ const InfoProyecto = ({ data, show, setShow }) => {
       onClose={() => setShow(false)}
       open={show}
     >
-      <p
-        style={{
-          marginBottom: 24,
-          fontSize: "24px",
-        }}
-      >
-        <ProjectTwoTone /> Proyecto
-      </p>
+      <DrawerTitle title="Proyecto" icon={<ProjectTwoTone />} />
       <SectionTitleItem>Detalles</SectionTitleItem>
       <Row style={{ width: "100%" }}>
         <Col span={24}>

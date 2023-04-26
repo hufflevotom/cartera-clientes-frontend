@@ -4,6 +4,7 @@ import { CarTwoTone } from "@ant-design/icons";
 import SectionTitleItem from "../../components/SectionTitleItem/SectionTitleItem";
 import DescriptionItem from "../../components/DescriptionItem/DescriptionItem";
 import moment from "moment";
+import DrawerTitle from "../../components/DrawerTitle/DrawerTitle";
 import { pathPublic } from "../../constants/Backend";
 
 export const InfoMotoTaxi = ({ data, show, setShow }) => {
@@ -15,14 +16,7 @@ export const InfoMotoTaxi = ({ data, show, setShow }) => {
       onClose={() => setShow(false)}
       open={show}
     >
-      <p
-        style={{
-          marginBottom: 24,
-          fontSize: "24px",
-        }}
-      >
-        <CarTwoTone /> Moto Taxi
-      </p>
+      <DrawerTitle title="Moto Taxi" icon={<CarTwoTone />} />
       <SectionTitleItem>Detalles</SectionTitleItem>
       <Row style={{ width: "100%" }}>
         <Col span={24}>

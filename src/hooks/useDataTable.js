@@ -87,7 +87,7 @@ export const useDataTable = ({
     let data = [];
     let total = 0;
     if (
-      respuesta.data.body.length === 2 &&
+      respuesta.data?.body?.length === 2 &&
       typeof respuesta.data.body[1] === "number" &&
       Array.isArray(respuesta.data.body[0])
     ) {

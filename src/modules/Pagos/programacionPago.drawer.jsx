@@ -7,6 +7,7 @@ import { formatter } from "../../util/utils";
 
 import SectionTitleItem from "../../components/SectionTitleItem/SectionTitleItem";
 import DescriptionItem from "../../components/DescriptionItem/DescriptionItem";
+import DrawerTitle from "../../components/DrawerTitle/DrawerTitle";
 
 export const InfoProgramacionPago = ({ data, show, setShow }) => {
   return (
@@ -17,14 +18,7 @@ export const InfoProgramacionPago = ({ data, show, setShow }) => {
       onClose={() => setShow(false)}
       open={show}
     >
-      <p
-        style={{
-          marginBottom: 24,
-          fontSize: "24px",
-        }}
-      >
-        <CreditCardTwoTone /> Programación de pago
-      </p>
+      <DrawerTitle title="Programación de pago" icon={<CreditCardTwoTone />} />
       <SectionTitleItem>Detalles</SectionTitleItem>
       <Row style={{ width: "100%" }}>
         <Col span={24}>
