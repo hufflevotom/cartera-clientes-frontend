@@ -4,7 +4,7 @@ export const registro = {
   fecha: "",
   valor_gasto: 0,
   descripcion: "",
-  motoPersonaId: 0,
+  motoPersonaId: null,
   createdAt: "",
   updatedAt: "",
 };

@@ -79,9 +79,9 @@ export const Proyectos = {
 
 //* Módulo de Hostings
 export const Hostings = {
-  getAll: backend + "proyectos/soporte",
-  create: backend + "proyectos/soporte",
-  getOne: backend + "proyectos/soporte/",
-  update: backend + "proyectos/soporte/",
-  delete: backend + "proyectos/soporte/",
+  getAll: backend + "proyectos/hosting",
+  create: backend + "proyectos/hosting",
+  getOne: backend + "proyectos/hosting/",
+  update: backend + "proyectos/hosting/",
+  delete: backend + "proyectos/hosting/",
 };

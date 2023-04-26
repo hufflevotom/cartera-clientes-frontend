@@ -1,11 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import moment from "moment";
 import { Card, Table } from "antd";
 
 import { hosting } from "../../models/hosting";
 import { hostingsService } from "../../services";
 import { useDataTable } from "../../hooks/useDataTable";
-import { formatter } from "../../util/utils";
 
 import { Boton } from "../../components/Boton";
 

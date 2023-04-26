@@ -1,12 +1,9 @@
 export const proyecto = {
   id: "",
-  dni: "",
-  contrasena: "",
   nombre: "",
-  apellidos: "",
-  celular: "",
-  idTipoRol: "",
-  brevete: "",
+  descripcion: "",
+  fechaInicio: "",
+  clienteId: null,
   createdAt: "",
   updatedAt: "",
 };
