@@ -59,6 +59,7 @@ const Proyectos = ({
           title: "Estado",
           dataIndex: "inProgress",
           key: "inProgress",
+          //TODO: cambaiar estrilo
           render: (text) => <span>{text ? "En Progreso" : "Terminado"}</span>,
         },
       ],

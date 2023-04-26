@@ -67,7 +67,9 @@ export const Clientes = {
 //* Módulo de Proyectos
 export const Proyectos = {
   getAll: backend + "proyectos/proyectos/cliente/",
-  getAllTerminados: backend + "proyectos/proyectos/cliente/terminado/",
+  getAllTerminados: backend + "proyectos/proyectos/cliente/cerrado/",
+  getAllAbiertos: backend + "proyectos/proyectos/cliente/abierto/",
+  validate: backend + "proyectos/pagos/verifyProgramacion/",
   create: backend + "proyectos/proyectos",
   getOne: backend + "proyectos/proyectos/",
   update: backend + "proyectos/proyectos/",

@@ -39,15 +39,15 @@ const TablaProgramacionPago = () => {
     tabla: {
       columns: [
         {
+          title: "Proyecto",
+          dataIndex: ["proyecto", "nombre"],
+          key: "proyecto",
+        },
+        {
           title: "Día de Pago",
           dataIndex: "diaPago",
           key: "diaPago",
           render: (text) => <span>{text} de cada mes</span>,
-        },
-        {
-          title: "Proyecto",
-          dataIndex: ["proyecto", "nombre"],
-          key: "proyecto",
         },
         {
           title: "Próximo pago",

@@ -38,7 +38,12 @@ export const ModalProgramacionPago = ({
 
   const traerProyectos = async (idCliente) => {
     try {
-      const respuesta = await proyectosService.getAll(10, 0, "", idCliente);
+      const respuesta = await proyectosService.getAllAbiertos(
+        10,
+        0,
+        "",
+        idCliente
+      );
       const data = respuesta.data.body.map((e, i) => ({
         ...e,
         key: i,
@@ -46,6 +51,13 @@ export const ModalProgramacionPago = ({
         label: `${e.nombre}`,
       }));
       setProyectos([...data]);
+    } catch (error) {}
+  };
+
+  const validarProyecto = async (idProyecto) => {
+    try {
+      const respuesta = await proyectosService.validate(idProyecto);
+      return !respuesta.data.body;
     } catch (error) {}
   };
 
@@ -69,6 +81,17 @@ export const ModalProgramacionPago = ({
       openNotification(
         "Datos Incompletos",
         "El día de pago debe estar entre 1 y 31",
+        "Alerta"
+      );
+      setLoadSave(false);
+      return;
+    }
+
+    const proyectoValido = await validarProyecto(proyectoId);
+    if (!proyectoValido) {
+      openNotification(
+        "Datos Incompletos",
+        "El proyecto seleccionado no es válido",
         "Alerta"
       );
       setLoadSave(false);
