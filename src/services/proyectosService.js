@@ -21,6 +21,12 @@ const update = async (id, body) => {
   return await httpClient.put(Proyectos.update + id, body);
 };
 
+const close = async (id) => {
+  return await httpClient.put(Proyectos.changeStatus + id, {
+    inProgress: false,
+  });
+};
+
 const _delete = async (id) => {
   return await httpClient.delete(Proyectos.delete + id);
 };
@@ -30,5 +36,6 @@ export const proyectosService = {
   create,
   getOne,
   update,
+  changeState: { close },
   delete: _delete,
 };

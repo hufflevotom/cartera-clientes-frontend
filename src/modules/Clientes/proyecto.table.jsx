@@ -11,6 +11,9 @@ import InfoProyecto from "./proyecto.drawer";
 import moment from "moment";
 
 import { useDataTable } from "../../hooks/useDataTable";
+import { CloseCircleOutlined } from "@ant-design/icons";
+import confirm from "antd/lib/modal/confirm";
+import { openNotification } from "../../util/utils";
 
 const Proyectos = ({
   datoSeleccionado: datoSeleccionadoCliente,
@@ -52,16 +55,67 @@ const Proyectos = ({
           key: "fechaInicio",
           render: (text) => <span>{moment(text).format("DD/MM/YYYY")}</span>,
         },
+        {
+          title: "Estado",
+          dataIndex: "inProgress",
+          key: "inProgress",
+          render: (text) => <span>{text ? "En Progreso" : "Terminado"}</span>,
+        },
       ],
       info: true,
       edit: true,
       delete: true,
+      aditionalActions: [
+        {
+          title: "Terminar Proyecto",
+          disabled: (record) => !record.inProgress,
+          onClick: (record) => {
+            confirmCerrar(record);
+          },
+          icon: (
+            <CloseCircleOutlined style={{ fontSize: 20, color: "orange" }} />
+          ),
+        },
+      ],
     },
     getAll: {
       func: proyectosService.getAll,
       params: { paginate: true, values: [datoSeleccionadoCliente.id] },
     },
   });
+
+  const confirmCerrar = (record) => {
+    confirm({
+      title:
+        "¿Esta seguro que desea cambiar el estado del proyecto a terminado?",
+      content: "",
+      okText: "Si, terminar",
+      okType: "danger",
+      cancelText: "No, salir",
+      onOk() {
+        cerrarProyecto(record);
+      },
+      onCancel() {},
+    });
+  };
+
+  const cerrarProyecto = async (record) => {
+    const response = await proyectosService.changeState.close(record.id);
+    if (response.data.statusCode === 200) {
+      openNotification(
+        "Registro modificado",
+        "El proyecto se registró como concluído",
+        ""
+      );
+    } else {
+      openNotification(
+        "Error al modificar",
+        "Ocurrió un error al modificar el proyecto",
+        ""
+      );
+    }
+    traerDatos();
+  };
 
   return (
     <Modal

@@ -161,6 +161,7 @@ export const useDataTable = ({
                   onClick={() => act.onClick(record)}
                   type="link"
                   icon={act.icon}
+                  disabled={act.disabled ? act.disabled(record) : false}
                 />
               </Tooltip>
               <Divider type="vertical" />

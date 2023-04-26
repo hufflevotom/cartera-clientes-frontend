@@ -46,6 +46,7 @@ export const Proyectos = {
   create: backend + "proyectos/proyectos",
   getOne: backend + "proyectos/proyectos/",
   update: backend + "proyectos/proyectos/",
+  changeStatus: backend + "proyectos/proyectos/change-status/",
   delete: backend + "proyectos/proyectos/",
 };
 
