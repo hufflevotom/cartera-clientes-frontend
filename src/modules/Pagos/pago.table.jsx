@@ -55,9 +55,11 @@ const TablaPago = ({
           key: "observaciones",
         },
       ],
-      info: true,
-      edit: false,
-      delete: true,
+      actions: {
+        info: true,
+        edit: false,
+        delete: true,
+      },
     },
     getAll: {
       func: programacionPagosService.getOne,

@@ -67,18 +67,20 @@ const Proyectos = ({
       edit: true,
       editDisabled: (record) => !record.inProgress,
       delete: true,
-      aditionalActions: [
-        {
-          title: "Terminar Proyecto",
-          disabled: (record) => !record.inProgress,
-          onClick: (record) => {
-            confirmCerrar(record);
+      actions: {
+        aditionalActions: [
+          {
+            title: "Terminar Proyecto",
+            disabled: (record) => !record.inProgress,
+            onClick: (record) => {
+              confirmCerrar(record);
+            },
+            icon: (
+              <CloseCircleOutlined style={{ fontSize: 20, color: "orange" }} />
+            ),
           },
-          icon: (
-            <CloseCircleOutlined style={{ fontSize: 20, color: "orange" }} />
-          ),
-        },
-      ],
+        ],
+      },
     },
     getAll: {
       func: proyectosService.getAll,

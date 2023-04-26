@@ -64,22 +64,24 @@ const TablaSoporte = () => {
           render: (text) => (text ? "Abierto" : "Cerrado"),
         },
       ],
-      info: true,
-      edit: true,
-      editDisabled: (record) => !record.abierto,
-      delete: true,
-      aditionalActions: [
-        {
-          title: "Terminar Proyecto",
-          disabled: (record) => !record.abierto,
-          onClick: (record) => {
-            confirmCerrar(record);
+      actions: {
+        info: true,
+        edit: true,
+        editDisabled: (record) => !record.abierto,
+        delete: true,
+        aditionalActions: [
+          {
+            title: "Terminar Proyecto",
+            disabled: (record) => !record.abierto,
+            onClick: (record) => {
+              confirmCerrar(record);
+            },
+            icon: (
+              <CloseCircleOutlined style={{ fontSize: 20, color: "orange" }} />
+            ),
           },
-          icon: (
-            <CloseCircleOutlined style={{ fontSize: 20, color: "orange" }} />
-          ),
-        },
-      ],
+        ],
+      },
     },
   });
 

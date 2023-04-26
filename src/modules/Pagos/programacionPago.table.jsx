@@ -134,20 +134,22 @@ const TablaProgramacionPago = () => {
           },
         },
       ],
-      aditionalActions: [
-        {
-          title: "Pagos",
-          onClick: (record) => {
-            pagos(record);
+      actions: {
+        aditionalActions: [
+          {
+            title: "Pagos",
+            onClick: (record) => {
+              pagos(record);
+            },
+            icon: (
+              <CreditCardOutlined style={{ fontSize: 20, color: "orange" }} />
+            ),
           },
-          icon: (
-            <CreditCardOutlined style={{ fontSize: 20, color: "orange" }} />
-          ),
-        },
-      ],
-      info: true,
-      edit: false,
-      delete: true,
+        ],
+        info: true,
+        edit: false,
+        delete: true,
+      },
     },
   });
 

@@ -4,6 +4,62 @@ import { Button, Divider, Modal, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import { openNotification } from "../util/utils";
 
+/** v1.0 @hufflevotom
+ * Hook para manejar la tabla de datos de ant design
+ *
+ * @param {{model: Object, tabla: Object, service: Service, getAll: Function, _delete: Function}} - Object con los parametros:
+ *  - model: Object con los datos del modelo. (Obligatorio)
+ *  - tabla: Object con los datos de la tabla: (Obligatorio)
+ *    -- columns: Array de columnas de la tabla, sigue la estructura de ant design. (Obligatorio)
+ *    -- actions: Object de acciones de la tabla, tiene las siguientes propiedades:
+ *      --- info: Boolean que indica si se muestra la columna de acciones.
+ *      --- infoDisabled: FunctionIndica si se muestra la columna de acciones.
+ *      --- edit: Boolean que Indica si se muestra la columna de acciones.
+ *      --- editDisabled: FunctionIndica si se muestra la columna de acciones.
+ *      --- delete: Boolean que Indica si se muestra la columna de acciones.
+ *      --- deleteDisabled: FunctionIndica si se muestra la columna de acciones.
+ *      --- aditionalActions: Object que muestra las columnas de acciones, tiene las siguientes propiedades:
+ *        ---- title: Texto del tooltip.
+ *        ---- icon: Icono de la accion.
+ *        ---- onClick: Icono de la accion.
+ *        ---- disabled: Icono de la accion.
+ * - service: Servicio para obtener los datos de la tabla y eliminarlos. (Obligatorio)
+ * - getAll: Object para obtener todos los datos de la tabla, tiene las siguientes propiedades:
+ *   -- func: Function para obtener los datos de la tabla.
+ *   -- response: Function para transformar la respuesta y retornar los datos de la tabla.
+ *   -- params: Object de parametros para la función, tiene las siguientes propiedades:
+ *    --- paginate: Boolean para indicar si se paginan los datos.
+ *    --- values: Array .
+ * - _delete: Function para eliminar un registro de la tabla.
+ *
+ * @returns {Object} Objeto con los datos de la tabla
+ * @returns {Boolean} Objeto.loading Indica si se esta cargando la tabla
+ * @returns {Array} Objeto.data Datos de la tabla
+ * @returns {Object} Objeto.paginacion Configuracion de la paginacion
+ * @returns {Function} Objeto.showInfo Funcion para mostrar el detalle de un registro
+ * @returns {Function} Objeto.agregar Funcion para agregar un registro
+ * @returns {Function} Objeto.editar Funcion para editar un registro
+ * @returns {Function} Objeto.eliminar Funcion para eliminar un registro
+ * @returns {Function} Objeto.traerDatos Funcion para obtener los datos de la tabla
+ * @returns {Function} Objeto.eliminarData Funcion para eliminar un registro
+ * @returns {Function} Objeto.showDeleteConfirm Funcion para mostrar el modal de confirmacion de eliminacion
+ * @returns {Function} Objeto.showModal Funcion para mostrar el modal de detalle, agregar o editar
+ * @returns {Function} Objeto.handleCancel Funcion para ocultar el modal de detalle, agregar o editar
+ * @returns {Function} Objeto.handleOk Funcion para ocultar el modal de detalle, agregar o editar
+ * @returns {Function} Objeto.handleTableChange Funcion para manejar los cambios de la tabla
+ * @returns {Function} Objeto.handlePagination Funcion para manejar los cambios de la paginacion
+ * @returns {Function} Objeto.handleSearch Funcion para manejar la busqueda
+ * @returns {Function} Objeto.handleReset Funcion para manejar el reseteo de la busqueda
+ * @returns {Function} Objeto.handleSizeChange Funcion para manejar el cambio de tamaño de pagina
+ * @returns {Function} Objeto.handleCurrentChange Funcion para manejar el cambio de pagina
+ * @returns {Function} Objeto.handleDelete Funcion para manejar la eliminacion de un registro
+ * @returns {Function} Objeto.handleEdit Funcion para manejar la edicion de un registro
+ * @returns {Function} Objeto.handleAdd Funcion para manejar la adicion de un registro
+ * @returns {Function} Objeto.handleInfo Funcion para manejar la visualizacion de un registro
+ * @returns {Function} Objeto.handleInfo Funcion para manejar la visualizacion de un registro
+ * @returns {Function} Objeto.handleInfo Funcion para manejar la visualizacion de un registro
+ * @returns {Function} Objeto.handleInfo Funcion para manejar la visualizacion de un registro
+ */
 export const useDataTable = ({
   model,
   tabla,
@@ -147,13 +203,15 @@ export const useDataTable = ({
       key: "action",
       width:
         50 +
-        (tabla.info ? 50 : 0) +
-        (tabla.edit ? 50 : 0) +
-        (tabla.delete ? 50 : 0) +
-        (tabla.aditionalActions ? tabla.aditionalActions.length * 50 : 0),
+        (tabla.actions.info ? 50 : 0) +
+        (tabla.actions.edit ? 50 : 0) +
+        (tabla.actions.delete ? 50 : 0) +
+        (tabla.actions.aditionalActions
+          ? tabla.actions.aditionalActions.length * 50
+          : 0),
       render: (text, record) => (
         <span>
-          {tabla.aditionalActions?.map((act) => (
+          {tabla.actions.aditionalActions?.map((act) => (
             <>
               <Tooltip placement="top" title={act.title}>
                 <Button
@@ -167,7 +225,7 @@ export const useDataTable = ({
               <Divider type="vertical" />
             </>
           ))}
-          {tabla.info && (
+          {tabla.actions.info && (
             <>
               <Tooltip placement="top" title="Detalles">
                 <Button
@@ -176,7 +234,9 @@ export const useDataTable = ({
                     showInfo(record);
                   }}
                   disabled={
-                    tabla.infoDisabled ? tabla.infoDisabled(record) : false
+                    tabla.actions.infoDisabled
+                      ? tabla.actions.infoDisabled(record)
+                      : false
                   }
                   type="link"
                   icon={<EyeOutlined style={{ fontSize: 20 }} />}
@@ -185,7 +245,7 @@ export const useDataTable = ({
               <Divider type="vertical" />
             </>
           )}
-          {tabla.edit && (
+          {tabla.actions.edit && (
             <>
               <Tooltip placement="top" title="Editar">
                 <Button
@@ -194,7 +254,9 @@ export const useDataTable = ({
                     editar(record);
                   }}
                   disabled={
-                    tabla.editDisabled ? tabla.editDisabled(record) : false
+                    tabla.actions.editDisabled
+                      ? tabla.actions.editDisabled(record)
+                      : false
                   }
                   type="link"
                   icon={
@@ -205,7 +267,7 @@ export const useDataTable = ({
               <Divider type="vertical" />
             </>
           )}
-          {tabla.delete && (
+          {tabla.actions.delete && (
             <>
               <Tooltip placement="top" title="Eliminar">
                 <Button
@@ -214,7 +276,9 @@ export const useDataTable = ({
                     showDeleteConfirm(record);
                   }}
                   disabled={
-                    tabla.deleteDisabled ? tabla.deleteDisabled(record) : false
+                    tabla.actions.deleteDisabled
+                      ? tabla.actions.deleteDisabled(record)
+                      : false
                   }
                   type="link"
                   icon={

@@ -100,9 +100,11 @@ const Registros = ({
           ),
         },
       ],
-      info: true,
-      edit: true,
-      delete: true,
+      actions: {
+        info: true,
+        edit: true,
+        delete: true,
+      },
     },
     getAll: {
       func: registrosService.getAll,

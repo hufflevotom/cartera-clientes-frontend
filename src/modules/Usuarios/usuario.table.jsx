@@ -49,9 +49,11 @@ const Usuarios = () => {
           key: "email",
         },
       ],
-      info: true,
-      edit: true,
-      delete: true,
+      actions: {
+        info: true,
+        edit: true,
+        delete: true,
+      },
     },
   });
 

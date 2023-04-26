@@ -57,18 +57,20 @@ const TablaCliente = () => {
           key: "telefono",
         },
       ],
-      aditionalActions: [
-        {
-          title: "Proyectos",
-          onClick: (record) => {
-            proyectos(record);
+      actions: {
+        aditionalActions: [
+          {
+            title: "Proyectos",
+            onClick: (record) => {
+              proyectos(record);
+            },
+            icon: <ProjectOutlined style={{ fontSize: 20, color: "orange" }} />,
           },
-          icon: <ProjectOutlined style={{ fontSize: 20, color: "orange" }} />,
-        },
-      ],
-      info: true,
-      edit: true,
-      delete: true,
+        ],
+        info: true,
+        edit: true,
+        delete: true,
+      },
     },
   });
 

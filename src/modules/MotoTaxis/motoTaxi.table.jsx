@@ -111,18 +111,22 @@ const TablaMotoTaxi = () => {
           key: "persona",
         },
       ],
-      aditionalActions: [
-        {
-          title: "Registros",
-          onClick: (record) => {
-            registros(record);
+      actions: {
+        aditionalActions: [
+          {
+            title: "Registros",
+            onClick: (record) => {
+              registros(record);
+            },
+            icon: (
+              <DatabaseOutlined style={{ fontSize: 20, color: "orange" }} />
+            ),
           },
-          icon: <DatabaseOutlined style={{ fontSize: 20, color: "orange" }} />,
-        },
-      ],
-      info: true,
-      edit: true,
-      delete: true,
+        ],
+        info: true,
+        edit: true,
+        delete: true,
+      },
     },
     getAll: {
       func: motoTaxisService.getAll,
