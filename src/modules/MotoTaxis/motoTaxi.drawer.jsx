@@ -17,7 +17,7 @@ export const InfoMotoTaxi = ({ data, show, setShow }) => {
       open={show}
     >
       <DrawerTitle title="Moto Taxi" icon={<CarTwoTone />} />
-      <SectionTitleItem>Detalles</SectionTitleItem>
+      <SectionTitleItem>Información</SectionTitleItem>
       <Row style={{ width: "100%" }}>
         <Col span={24}>
           <DescriptionItem

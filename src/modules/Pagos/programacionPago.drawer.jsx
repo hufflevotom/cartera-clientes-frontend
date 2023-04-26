@@ -19,7 +19,7 @@ export const InfoProgramacionPago = ({ data, show, setShow }) => {
       open={show}
     >
       <DrawerTitle title="Programación de pago" icon={<ClockCircleTwoTone />} />
-      <SectionTitleItem>Detalles</SectionTitleItem>
+      <SectionTitleItem>Información</SectionTitleItem>
       <Row style={{ width: "100%" }}>
         <Col span={24}>
           <DescriptionItem

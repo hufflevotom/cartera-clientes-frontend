@@ -9,6 +9,14 @@ const getAll = async (limit, offset, busqueda = "", clienteId) => {
   );
 };
 
+const getAllTerminados = async (limit, offset, busqueda = "", clienteId) => {
+  return await httpClient.get(
+    `${Proyectos.getAllTerminados}${clienteId}?limit=${limit}&offset=${offset}${
+      busqueda && busqueda !== "" ? `&busqueda=${busqueda}` : ""
+    }`
+  );
+};
+
 const create = async (body) => {
   return await httpClient.post(Proyectos.create, body);
 };
@@ -33,6 +41,7 @@ const _delete = async (id) => {
 
 export const proyectosService = {
   getAll,
+  getAllTerminados,
   create,
   getOne,
   update,

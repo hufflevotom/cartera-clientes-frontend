@@ -16,7 +16,7 @@ const InfoProyecto = ({ data, show, setShow }) => {
       open={show}
     >
       <DrawerTitle title="Proyecto" icon={<ProjectTwoTone />} />
-      <SectionTitleItem>Detalles</SectionTitleItem>
+      <SectionTitleItem>Información</SectionTitleItem>
       <Row style={{ width: "100%" }}>
         <Col span={24}>
           <DescriptionItem title="Nombre" content={data.nombre} />

@@ -15,7 +15,7 @@ export const InfoCliente = ({ data, show, setShow }) => {
       open={show}
     >
       <DrawerTitle title="Cliente" icon={<SmileTwoTone />} />
-      <SectionTitleItem>Detalles</SectionTitleItem>
+      <SectionTitleItem>Información</SectionTitleItem>
       <Row style={{ width: "100%" }}>
         <Col span={24}>
           <DescriptionItem title="Documento" content={data.documento} />

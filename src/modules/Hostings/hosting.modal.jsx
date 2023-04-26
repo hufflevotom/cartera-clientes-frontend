@@ -1,17 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 
-import { Button, Modal, Form, Select, InputNumber } from "antd";
+import { Button, Modal, Form, Select, Input } from "antd";
+import TextArea from "antd/lib/input/TextArea";
 
 import { format, openNotification } from "../../util/utils";
 import {
   clientesService,
   proyectosService,
-  soportesService,
+  hostingsService,
 } from "../../services";
-import TextArea from "antd/lib/input/TextArea";
 
-export const ModalSoporte = ({
+export const ModalHosting = ({
   datoSeleccionado,
   verModal,
   setVerModal,
@@ -38,7 +38,7 @@ export const ModalSoporte = ({
 
   const traerProyectos = async (idCliente) => {
     try {
-      const respuesta = await proyectosService.getAllTerminados(10, 0, "", idCliente);
+      const respuesta = await proyectosService.getAll(10, 0, "", idCliente);
       const data = respuesta.data.body
         .filter((fp) => !fp.inProgress)
         .map((e, i) => ({
@@ -54,10 +54,10 @@ export const ModalSoporte = ({
   const agregar = async () => {
     setLoadSave(true);
     const proyectoId = form.getFieldValue("proyectoId");
-    const costo = form.getFieldValue("costo");
-    const observacion = form.getFieldValue("observacion");
+    const enlace = form.getFieldValue("enlace");
+    const credenciales = form.getFieldValue("credenciales");
 
-    if (!proyectoId || !costo || !observacion) {
+    if (!proyectoId || !enlace || !credenciales) {
       openNotification(
         "Datos Incompletos",
         "Complete todos los campos para guardar",
@@ -67,25 +67,15 @@ export const ModalSoporte = ({
       return;
     }
 
-    if (costo < 1) {
-      openNotification(
-        "Datos Incompletos",
-        "El día de pago debe estar entre 1 y 31",
-        "Alerta"
-      );
-      setLoadSave(false);
-      return;
-    }
-
     const data = {
       proyectoId,
-      costo,
-      observacion,
+      enlace,
+      credenciales,
     };
 
     try {
       if (tipo === "editar") {
-        const respuesta = await soportesService.update(
+        const respuesta = await hostingsService.update(
           datoSeleccionado.id,
           data
         );
@@ -103,7 +93,7 @@ export const ModalSoporte = ({
           );
         }
       } else {
-        const respuesta = await soportesService.create(data);
+        const respuesta = await hostingsService.create(data);
         if (respuesta.data.statusCode === 200) {
           openNotification(
             "Guardado Correctamente",
@@ -159,7 +149,7 @@ export const ModalSoporte = ({
         </Button>
       }
       onCancel={() => setVerModal(false)}
-      title={tipo === "editar" ? "Editar soporte" : "Agregar soporte"}
+      title={tipo === "editar" ? "Editar hosting" : "Agregar hosting"}
       maskClosable={false}
     >
       <Form
@@ -186,16 +176,14 @@ export const ModalSoporte = ({
             disabled={tipo === "editar"}
           />
         </Form.Item>
-        <Form.Item label="Costo" name="costo" required>
-          <InputNumber
-            min={1}
-            prefix="S/ "
-            placeholder="Ingrese el costo"
+        <Form.Item label="Enlace" name="enlace" required>
+          <Input
+            placeholder="Ingrese el enlace del hosting"
             style={{ width: "100%" }}
           />
         </Form.Item>
-        <Form.Item label="Observaciones" name="observacion" required>
-          <TextArea rows={4} placeholder="Ingrese las Observaciones" />
+        <Form.Item label="Credenciales" name="credenciales" required>
+          <TextArea rows={2} placeholder="Registre las credenciales" />
         </Form.Item>
       </Form>
     </Modal>

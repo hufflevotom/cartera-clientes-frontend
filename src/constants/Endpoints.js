@@ -67,9 +67,19 @@ export const Clientes = {
 //* Módulo de Proyectos
 export const Proyectos = {
   getAll: backend + "proyectos/proyectos/cliente/",
+  getAllTerminados: backend + "proyectos/proyectos/cliente/terminado/",
   create: backend + "proyectos/proyectos",
   getOne: backend + "proyectos/proyectos/",
   update: backend + "proyectos/proyectos/",
   changeStatus: backend + "proyectos/proyectos/change-status/",
   delete: backend + "proyectos/proyectos/",
+};
+
+//* Módulo de Hostings
+export const Hostings = {
+  getAll: backend + "proyectos/soporte",
+  create: backend + "proyectos/soporte",
+  getOne: backend + "proyectos/soporte/",
+  update: backend + "proyectos/soporte/",
+  delete: backend + "proyectos/soporte/",
 };

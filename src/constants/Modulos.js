@@ -6,10 +6,11 @@
 
 import {
   CarOutlined,
+  CloudServerOutlined,
   CreditCardOutlined,
   CustomerServiceOutlined,
   DashboardOutlined,
-  SearchOutlined,
+  SolutionOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 
@@ -40,16 +41,16 @@ export const Modulos = [
     modulo: "clientes",
     ruta: "Clientes",
     descripcion: "Clientes",
-    icono: <UserOutlined style={estilo} />,
+    icono: <SolutionOutlined style={estilo} />,
     subMenu: false,
   },
   {
     orden: 3,
-    key: "Hosting",
-    modulo: "hosting",
-    ruta: "Hosting",
-    descripcion: "Hosting",
-    icono: <SearchOutlined style={estilo} />,
+    key: "Hostings",
+    modulo: "hostings",
+    ruta: "Hostings",
+    descripcion: "Hostings",
+    icono: <CloudServerOutlined style={estilo} />,
     subMenu: false,
   },
   {

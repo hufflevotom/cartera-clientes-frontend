@@ -16,7 +16,7 @@ const InfoPago = ({ data, show, setShow }) => {
       open={show}
     >
       <DrawerTitle title="Pago" icon={<CreditCardTwoTone />} />
-      <SectionTitleItem>Detalles</SectionTitleItem>
+      <SectionTitleItem>Información</SectionTitleItem>
       <Row style={{ width: "100%" }}>
         <Col span={24}>
           <DescriptionItem title="Monto" content={data.monto} />

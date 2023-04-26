@@ -1,10 +1,8 @@
 export const soporte = {
   id: 0,
-  documento: "",
-  razonSocial: "",
-  responsable: "",
-  telefono: "",
-  proyectos: [],
+  observacion: "",
+  costo: 1,
+  proyectoId: null,
   activo: true,
   createdAt: "",
   updatedAt: "",

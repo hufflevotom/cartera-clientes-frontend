@@ -44,11 +44,10 @@ export const useProvideAuth = () => {
                 "inicio",
                 "motoTaxis",
                 "clientes",
-                // "hosting",
+                "hostings",
                 "pagos",
                 "soportes",
                 "usuarios",
-                // "proyectos",
               ],
             })
           );
