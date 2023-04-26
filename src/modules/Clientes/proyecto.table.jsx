@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Modal, Table } from "antd";
+import { Modal, Table, Tag } from "antd";
 
 import { Boton } from "../../components/Boton";
 
@@ -59,15 +59,18 @@ const Proyectos = ({
           title: "Estado",
           dataIndex: "inProgress",
           key: "inProgress",
-          //TODO: cambaiar estrilo
-          render: (text) => <span>{text ? "En Progreso" : "Terminado"}</span>,
+          render: (text) => (
+            <Tag color={text ? "blue" : "green"}>
+              {text ? "En Progreso" : "Terminado"}
+            </Tag>
+          ),
         },
       ],
-      info: true,
-      edit: true,
-      editDisabled: (record) => !record.inProgress,
-      delete: true,
       actions: {
+        info: true,
+        edit: true,
+        editDisabled: (record) => !record.inProgress,
+        delete: true,
         aditionalActions: [
           {
             title: "Terminar Proyecto",

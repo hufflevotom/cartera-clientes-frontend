@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Card, Table } from "antd";
+import { Card, Table, Tag } from "antd";
 
 import { Boton } from "../../components/Boton";
 
@@ -61,7 +61,11 @@ const TablaSoporte = () => {
           title: "Estado",
           dataIndex: "abierto",
           key: "abierto",
-          render: (text) => (text ? "Abierto" : "Cerrado"),
+          render: (text) => (
+            <Tag color={text ? "green" : "red"}>
+              {text ? "Abierto" : "Cerrado"}
+            </Tag>
+          ),
         },
       ],
       actions: {
