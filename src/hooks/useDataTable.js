@@ -175,6 +175,9 @@ export const useDataTable = ({
                   onClick={() => {
                     showInfo(record);
                   }}
+                  disabled={
+                    tabla.infoDisabled ? tabla.infoDisabled(record) : false
+                  }
                   type="link"
                   icon={<EyeOutlined style={{ fontSize: 20 }} />}
                 />
@@ -190,6 +193,9 @@ export const useDataTable = ({
                   onClick={() => {
                     editar(record);
                   }}
+                  disabled={
+                    tabla.editDisabled ? tabla.editDisabled(record) : false
+                  }
                   type="link"
                   icon={
                     <EditOutlined style={{ fontSize: 20, color: "green" }} />
@@ -207,6 +213,9 @@ export const useDataTable = ({
                   onClick={() => {
                     showDeleteConfirm(record);
                   }}
+                  disabled={
+                    tabla.deleteDisabled ? tabla.deleteDisabled(record) : false
+                  }
                   type="link"
                   icon={
                     <DeleteOutlined style={{ fontSize: 20, color: "red" }} />

@@ -31,6 +31,30 @@ export const Registros = {
   delete: backend + "movilidades/registros-moto/",
 };
 
+//* Módulo de Soportes
+export const Soportes = {
+  getAll: backend + "proyectos/soporte",
+  create: backend + "proyectos/soporte",
+  getOne: backend + "proyectos/soporte/",
+  update: backend + "proyectos/soporte/",
+  delete: backend + "proyectos/soporte/",
+  closeStatus: backend + "proyectos/soporte/cerrar-soporte/",
+};
+
+//* Módulo de ProgramacionPagos
+export const ProgramacionPagos = {
+  getAll: backend + "proyectos/pagos/programacion",
+  create: backend + "proyectos/pagos/programacion",
+  getOne: backend + "proyectos/pagos/programacion/",
+  delete: backend + "proyectos/pagos/programacion/",
+};
+
+//* Módulo de Pagos
+export const Pagos = {
+  create: backend + "proyectos/pagos/pago",
+  delete: backend + "proyectos/pagos/pago/",
+};
+
 //* Módulo de Clientes
 export const Clientes = {
   getAll: backend + "proyectos/clientes",
@@ -48,18 +72,4 @@ export const Proyectos = {
   update: backend + "proyectos/proyectos/",
   changeStatus: backend + "proyectos/proyectos/change-status/",
   delete: backend + "proyectos/proyectos/",
-};
-
-//* Módulo de ProgramacionPagos
-export const ProgramacionPagos = {
-  getAll: backend + "proyectos/pagos/programacion",
-  create: backend + "proyectos/pagos/programacion",
-  getOne: backend + "proyectos/pagos/programacion/",
-  delete: backend + "proyectos/pagos/programacion/",
-};
-
-//* Módulo de Pagos
-export const Pagos = {
-  create: backend + "proyectos/pagos/pago",
-  delete: backend + "proyectos/pagos/pago/",
 };

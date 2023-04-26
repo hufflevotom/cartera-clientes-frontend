@@ -6,8 +6,8 @@
 
 import {
   CarOutlined,
-  CompassOutlined,
   CreditCardOutlined,
+  CustomerServiceOutlined,
   DashboardOutlined,
   SearchOutlined,
   UserOutlined,
@@ -63,11 +63,11 @@ export const Modulos = [
   },
   {
     orden: 5,
-    key: "Soporte",
-    modulo: "soporte",
-    ruta: "Soporte",
+    key: "Soportes",
+    modulo: "soportes",
+    ruta: "Soportes",
     descripcion: "Soporte",
-    icono: <CompassOutlined style={estilo} />,
+    icono: <CustomerServiceOutlined style={estilo} />,
     subMenu: false,
   },
   {

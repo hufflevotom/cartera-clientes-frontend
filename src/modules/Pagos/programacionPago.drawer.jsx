@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Drawer, Row, Col } from "antd";
-import { CreditCardTwoTone } from "@ant-design/icons";
+import { ClockCircleTwoTone } from "@ant-design/icons";
 
 import { formatter } from "../../util/utils";
 
@@ -18,7 +18,7 @@ export const InfoProgramacionPago = ({ data, show, setShow }) => {
       onClose={() => setShow(false)}
       open={show}
     >
-      <DrawerTitle title="Programación de pago" icon={<CreditCardTwoTone />} />
+      <DrawerTitle title="Programación de pago" icon={<ClockCircleTwoTone />} />
       <SectionTitleItem>Detalles</SectionTitleItem>
       <Row style={{ width: "100%" }}>
         <Col span={24}>

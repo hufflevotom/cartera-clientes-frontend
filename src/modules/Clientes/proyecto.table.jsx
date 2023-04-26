@@ -64,6 +64,7 @@ const Proyectos = ({
       ],
       info: true,
       edit: true,
+      editDisabled: (record) => !record.inProgress,
       delete: true,
       aditionalActions: [
         {
