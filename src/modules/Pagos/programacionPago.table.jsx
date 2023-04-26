@@ -136,7 +136,7 @@ const TablaProgramacionPago = () => {
       ],
       aditionalActions: [
         {
-          title: "Proyectos",
+          title: "Pagos",
           onClick: (record) => {
             pagos(record);
           },
@@ -191,6 +191,7 @@ const TablaProgramacionPago = () => {
           verModal={verModalPago}
           datoSeleccionado={datoSeleccionado}
           setVerModal={setVerModalPago}
+          traerDatos={traerDatos}
         />
       ) : null}
     </Card>

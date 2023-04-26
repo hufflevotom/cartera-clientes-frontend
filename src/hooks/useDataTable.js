@@ -65,9 +65,10 @@ export const useDataTable = ({
     setLoading(true);
 
     //* Obtener parametros de paginacion
-    const limit = pagination.pageSize;
-    const offset =
-      pagination.current * pagination.pageSize - pagination.pageSize;
+    const limit = pagination ? pagination.pageSize : paginacion.pageSize;
+    const offset = pagination
+      ? pagination.current * pagination.pageSize - pagination.pageSize
+      : paginacion.current * paginacion.pageSize - paginacion.pageSize;
     const paginate = [limit, offset, getAll?.params?.search || ""];
 
     //* Obtener parametros adicionales
@@ -76,7 +77,7 @@ export const useDataTable = ({
         ? [...paginate, ...getAll.params.values]
         : getAll.params.values
       : [];
-    console.log(params);
+
     //* Invocar servicio
     const respuesta = getAll
       ? await getAll.func(...params)
@@ -113,9 +114,12 @@ export const useDataTable = ({
     //* Detener loading
     setLoading(false);
 
-    //* Actualizar data y total de registros
+    //* Actualizar data
     setData([...data]);
-    setPaginacion({ ...pagination, total });
+
+    //* Actualizar paginación
+    const currentPaginacion = pagination ? pagination : paginacion;
+    setPaginacion({ ...currentPaginacion, total });
   };
 
   const eliminarData = async (record) => {

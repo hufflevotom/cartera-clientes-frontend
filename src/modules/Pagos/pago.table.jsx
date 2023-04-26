@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from "react";
 import { Modal, Table } from "antd";
 import moment from "moment";
 
@@ -15,6 +16,7 @@ const TablaPago = ({
   datoSeleccionado: datoSeleccionadoProgramacion,
   verModal: verModalProgramacion,
   setVerModal: setVerModalProgramacion,
+  traerDatos: traerDatosProgramacion,
 }) => {
   const model = "pago";
   const {
@@ -71,6 +73,10 @@ const TablaPago = ({
       },
     },
   });
+
+  useEffect(() => {
+    traerDatosProgramacion();
+  }, [data]);
 
   return (
     <Modal
