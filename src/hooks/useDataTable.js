@@ -7,58 +7,49 @@ import { openNotification } from "../util/utils";
 /** v1.0 @hufflevotom
  * Hook para manejar la tabla de datos de ant design
  *
- * @param {{model: Object, tabla: Object, service: Service, getAll: Function, _delete: Function}} - Object con los parametros:
+ * @param {Object} : Object con los siguientes parametros:
  *  - model: Object con los datos del modelo. (Obligatorio)
  *  - tabla: Object con los datos de la tabla: (Obligatorio)
  *    -- columns: Array de columnas de la tabla, sigue la estructura de ant design. (Obligatorio)
  *    -- actions: Object de acciones de la tabla, tiene las siguientes propiedades:
- *      --- info: Boolean que indica si se muestra la columna de acciones.
- *      --- infoDisabled: FunctionIndica si se muestra la columna de acciones.
- *      --- edit: Boolean que Indica si se muestra la columna de acciones.
- *      --- editDisabled: FunctionIndica si se muestra la columna de acciones.
- *      --- delete: Boolean que Indica si se muestra la columna de acciones.
- *      --- deleteDisabled: FunctionIndica si se muestra la columna de acciones.
- *      --- aditionalActions: Object que muestra las columnas de acciones, tiene las siguientes propiedades:
- *        ---- title: Texto del tooltip.
- *        ---- icon: Icono de la accion.
- *        ---- onClick: Icono de la accion.
- *        ---- disabled: Icono de la accion.
+ *      --- info: Boolean que indica si se muestra el botón de información.
+ *      --- infoDisabled: Function que retorna un Boolean de acuerdo al record, para deshabilitar el botón de información.
+ *      --- edit: Boolean que Indica si se muestra el botón de editar.
+ *      --- editDisabled: Function que retorna un Boolean de acuerdo al record, para deshabilitar el botón de editar.
+ *      --- delete: Boolean que Indica si se muestra el botón de eliminar.
+ *      --- deleteDisabled: Function que retorna un Boolean de acuerdo al record, para deshabilitar el botón de eliminar.
+ *      --- aditionalActions: Array de Object's que muestra botones de acciones, tiene las siguientes propiedades:
+ *        ---- title: String, texto del tooltip.
+ *        ---- icon: XHTML, ícono del botón.
+ *        ---- onClick: Fuction de la accion.
+ *        ---- disabled: Fuction que retorna un Boolean de acuerdo al record, para deshabilitar la acción.
  * - service: Servicio para obtener los datos de la tabla y eliminarlos. (Obligatorio)
  * - getAll: Object para obtener todos los datos de la tabla, tiene las siguientes propiedades:
  *   -- func: Function para obtener los datos de la tabla.
  *   -- response: Function para transformar la respuesta y retornar los datos de la tabla.
  *   -- params: Object de parametros para la función, tiene las siguientes propiedades:
  *    --- paginate: Boolean para indicar si se paginan los datos.
- *    --- values: Array .
+ *    --- values: Array que contiene los parametros para la funcion de obtener los datos.
  * - _delete: Function para eliminar un registro de la tabla.
  *
- * @returns {Object} Objeto con los datos de la tabla
- * @returns {Boolean} Objeto.loading Indica si se esta cargando la tabla
- * @returns {Array} Objeto.data Datos de la tabla
- * @returns {Object} Objeto.paginacion Configuracion de la paginacion
- * @returns {Function} Objeto.showInfo Funcion para mostrar el detalle de un registro
- * @returns {Function} Objeto.agregar Funcion para agregar un registro
- * @returns {Function} Objeto.editar Funcion para editar un registro
- * @returns {Function} Objeto.eliminar Funcion para eliminar un registro
- * @returns {Function} Objeto.traerDatos Funcion para obtener los datos de la tabla
- * @returns {Function} Objeto.eliminarData Funcion para eliminar un registro
- * @returns {Function} Objeto.showDeleteConfirm Funcion para mostrar el modal de confirmacion de eliminacion
- * @returns {Function} Objeto.showModal Funcion para mostrar el modal de detalle, agregar o editar
- * @returns {Function} Objeto.handleCancel Funcion para ocultar el modal de detalle, agregar o editar
- * @returns {Function} Objeto.handleOk Funcion para ocultar el modal de detalle, agregar o editar
- * @returns {Function} Objeto.handleTableChange Funcion para manejar los cambios de la tabla
- * @returns {Function} Objeto.handlePagination Funcion para manejar los cambios de la paginacion
- * @returns {Function} Objeto.handleSearch Funcion para manejar la busqueda
- * @returns {Function} Objeto.handleReset Funcion para manejar el reseteo de la busqueda
- * @returns {Function} Objeto.handleSizeChange Funcion para manejar el cambio de tamaño de pagina
- * @returns {Function} Objeto.handleCurrentChange Funcion para manejar el cambio de pagina
- * @returns {Function} Objeto.handleDelete Funcion para manejar la eliminacion de un registro
- * @returns {Function} Objeto.handleEdit Funcion para manejar la edicion de un registro
- * @returns {Function} Objeto.handleAdd Funcion para manejar la adicion de un registro
- * @returns {Function} Objeto.handleInfo Funcion para manejar la visualizacion de un registro
- * @returns {Function} Objeto.handleInfo Funcion para manejar la visualizacion de un registro
- * @returns {Function} Objeto.handleInfo Funcion para manejar la visualizacion de un registro
- * @returns {Function} Objeto.handleInfo Funcion para manejar la visualizacion de un registro
+ * @return {Object} : Object que tiene las siguientes propiedades:
+ * - agregar: Function para mostrar el modal de registro de información.
+ * - loading: Boolean que indica si se esta cargando la tabla.
+ * - setLoading: Function para cambiar el estado de loading.
+ * - columns: Array de columnas de la tabla.
+ * - data: Array de datos de la tabla.
+ * - setData: Function para cambiar los datos de la tabla.
+ * - paginacion: Object de paginación de la tabla.
+ * - setPaginacion: Function para cambiar la paginación de la tabla.
+ * - handleTableChange: Function para manejar el cambio de paginación de la tabla.
+ * - datoSeleccionado: Object con los datos del registro seleccionado.
+ * - setDatoSeleccionado: Function para cambiar los datos del registro seleccionado.
+ * - verDetalle: Boolean que indica si se muestra el modal de información.
+ * - setVerDetalle: Function para cambiar el estado de verDetalle.
+ * - verModal: Boolean que indica si se muestra el modal de registro de información.
+ * - setVerModal: Function para cambiar el estado de verModal.
+ * - tipo: String que indica el tipo de modal, puede ser "agregar" o "editar".
+ * - traerDatos: Function para obtener los datos de la tabla.
  */
 export const useDataTable = ({
   model,
