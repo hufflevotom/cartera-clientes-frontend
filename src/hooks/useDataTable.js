@@ -20,7 +20,7 @@ import { openNotification } from "../util/utils";
  *      --- delete: Boolean que Indica si se muestra el botón de eliminar.
  *      --- deleteDisabled: Function que retorna un Boolean de acuerdo al record, para deshabilitar el botón de eliminar.
  *      --- aditionalActions: Array de Object's que muestra botones de acciones, tiene las siguientes propiedades:
- *        ---- title: String, texto del tooltip.
+ *        ---- title: XHTML, texto del tooltip.
  *        ---- icon: XHTML, ícono del botón.
  *        ---- onClick: Fuction de la accion.
  *        ---- disabled: Fuction que retorna un Boolean de acuerdo al record, para deshabilitar la acción.
