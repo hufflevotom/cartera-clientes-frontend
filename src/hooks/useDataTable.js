@@ -4,7 +4,7 @@ import { Button, Divider, Modal, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import { openNotification } from "../util/utils";
 
-/** v1.0 @hufflevotom
+/** v1.1 @hufflevotom
  * Hook para manejar la tabla de datos de ant design
  *
  * @param {Object} : Object con los siguientes parametros:
@@ -12,6 +12,7 @@ import { openNotification } from "../util/utils";
  *  - tabla: Object con los datos de la tabla: (Obligatorio)
  *    -- columns: Array de columnas de la tabla, sigue la estructura de ant design. (Obligatorio)
  *    -- actions: Object de acciones de la tabla, tiene las siguientes propiedades:
+ *      --- title: String que muestra el titulo de las acciones.
  *      --- info: Boolean que indica si se muestra el botón de información.
  *      --- infoDisabled: Function que retorna un Boolean de acuerdo al record, para deshabilitar el botón de información.
  *      --- edit: Boolean que Indica si se muestra el botón de editar.
@@ -190,7 +191,7 @@ export const useDataTable = ({
   const columns = [
     ...tabla.columns,
     {
-      title: "",
+      title: tabla.actions.title || "",
       key: "action",
       width:
         50 +
