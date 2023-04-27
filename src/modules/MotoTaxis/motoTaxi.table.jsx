@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Avatar, Card, Image, Table } from "antd";
 import { DatabaseOutlined } from "@ant-design/icons";
@@ -10,11 +10,10 @@ import { motoTaxisService } from "../../services";
 import { useDataTable } from "../../hooks/useDataTable";
 
 import { Boton } from "../../components/Boton";
+import { Buscador } from "../../components/Buscador";
 import { ModalMotoTaxi as Modal } from "./motoTaxi.modal";
 import { InfoMotoTaxi as Drawer } from "./motoTaxi.drawer";
-
 import Registros from "./registros.table";
-import { Buscador } from "../../components/Buscador";
 
 const opcionesInicial = {
   buscar: "",
@@ -26,6 +25,7 @@ const opcionesInicial = {
 
 const TablaMotoTaxi = () => {
   const model = "Moto Taxi";
+  const [totales, setTotales] = useState();
   const [opciones, setOpciones] = useState(opcionesInicial);
   const [verModalRegistros, setVerModalRegistros] = useState(false);
   const {
@@ -112,6 +112,11 @@ const TablaMotoTaxi = () => {
         },
       ],
       actions: {
+        title:
+          "Ingresos: " +
+          totales?.sumaValor.valor +
+          "/ Gastos: " +
+          totales?.sumaValorGasto.valor,
         aditionalActions: [
           {
             title: "Registros",
@@ -142,6 +147,19 @@ const TablaMotoTaxi = () => {
     setDatoSeleccionado(record);
     setVerModalRegistros(true);
   };
+
+  const traerTotales = async () => {
+    try {
+      const res = await motoTaxisService.getTotales();
+      setTotales(res.data.body);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    traerTotales();
+  }, [data]);
 
   return (
     <Card
@@ -184,6 +202,7 @@ const TablaMotoTaxi = () => {
       ) : null}
       {verModalRegistros ? (
         <Registros
+          traerDatos={traerDatos}
           verModal={verModalRegistros}
           datoSeleccionado={datoSeleccionado}
           setVerModal={setVerModalRegistros}

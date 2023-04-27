@@ -10,6 +10,10 @@ const getAll = async (limit, offset, busqueda = "") => {
   );
 };
 
+const getTotales = async (id) => {
+  return await httpClient.get(MotoTaxis.getTotales);
+};
+
 const create = async (body) => {
   return await httpClient.post(MotoTaxis.create, body);
 };
@@ -37,6 +41,7 @@ const _delete = async (id) => {
 
 export const motoTaxisService = {
   getAll,
+  getTotales,
   create,
   getOne,
   update,

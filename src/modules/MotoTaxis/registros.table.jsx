@@ -40,6 +40,7 @@ const opcionesInicial = {
 };
 
 const Registros = ({
+  traerDatos: traerDatosMotoTaxi,
   datoSeleccionado: datoSeleccionadoMotoTaxi,
   verModal: verModalMotoTaxi,
   setVerModal: setVerModalMotoTaxi,
@@ -140,6 +141,7 @@ const Registros = ({
 
     //* Actualizar data y total de registros
     setDataLeyenda(data);
+    traerDatosMotoTaxi();
   };
 
   useEffect(() => {

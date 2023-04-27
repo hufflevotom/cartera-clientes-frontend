@@ -13,6 +13,7 @@ export const Usuarios = {
 //* Módulo de MotoTaxis
 export const MotoTaxis = {
   getAll: backend + "movilidades/moto-persona",
+  getTotales: backend + "movilidades/registros-moto/allTotales",
   create: backend + "movilidades/moto-persona",
   getOne: backend + "movilidades/moto-persona/",
   update: backend + "movilidades/moto-persona/",
