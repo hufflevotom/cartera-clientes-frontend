@@ -163,7 +163,31 @@ const TablaMotoTaxi = () => {
 
   return (
     <Card
-      title={`Lista de ${model}s`}
+      title={
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "left",
+            gap: "20px",
+            marginRight: "20px",
+          }}
+        >
+          <div>Lista de {model}s</div>
+          {totales && (
+            <div>
+              / Total:{" "}
+              {(
+                parseFloat(totales?.sumaValor.valor) -
+                parseFloat(totales?.sumaValorGasto.valor)
+              ).toFixed(2)}
+            </div>
+          )}
+        </div>
+      }
       extra={
         <Boton type="primary" onClick={agregar} name={`Agregar ${model}`} />
       }
